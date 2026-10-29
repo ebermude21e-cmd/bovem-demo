@@ -1,0 +1,1068 @@
+<!-- Prototipo Bovem Capital · Sistema de gestión y cobranza de crédito al consumo · datos de ejemplo -->
+<title>Bovem Crédito</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: barra lateral de módulos + área de trabajo; cuadros densos, semántica de estado en pastillas; maquetas de teléfono en mensajería */
+:root{
+  --bg:#F2F4F3; --surface:#FFFFFF; --surface-2:#EDF1EF; --ink:#13201C; --muted:#5A6A65; --line:#D8E0DD;
+  --accent:#0D5A48; --accent-ink:#FFFFFF; --accent-soft:#DDEDE7; --accent-2:#3C7D9C;
+  --ok:#1D7A4C; --ok-soft:#E0F1E7; --warn:#996312; --warn-soft:#F7ECD6; --crit:#AF372B; --crit-soft:#F6E1DE; --crit-2:#73241C;
+  --wa-chat:#EFEAE2; --wa-in:#FFFFFF; --wa-out:#D9FDD3; --wa-head:#FFFFFF; --wa-green:#008069; --wa-ink:#111B21; --wa-meta:#667781; --wa-tick:#53BDEB;
+  --sms-bg:#FFFFFF; --sms-in:#E9E9EB; --sms-out:#0B84FE; --sms-ink:#000000; --sms-meta:#8A8A8E;
+  --f-display:"Archivo","Helvetica Neue",Arial,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",Roboto,Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1513; --surface:#151F1B; --surface-2:#1B2723; --ink:#E3EBE7; --muted:#96A7A0; --line:#28362F;
+  --accent:#4DBB9A; --accent-ink:#0A1310; --accent-soft:#1D392F; --accent-2:#77B6D4;
+  --ok:#5CC48C; --ok-soft:#1A3325; --warn:#E0AA55; --warn-soft:#382D17; --crit:#EE7F72; --crit-soft:#3C201D; --crit-2:#F2A49A;
+  --wa-chat:#0B141A; --wa-in:#202C33; --wa-out:#005C4B; --wa-head:#202C33; --wa-green:#00A884; --wa-ink:#E9EDEF; --wa-meta:#8696A0; --wa-tick:#53BDEB;
+  --sms-bg:#000000; --sms-in:#262628; --sms-out:#0B84FE; --sms-ink:#FFFFFF; --sms-meta:#8E8E93; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1513; --surface:#151F1B; --surface-2:#1B2723; --ink:#E3EBE7; --muted:#96A7A0; --line:#28362F;
+  --accent:#4DBB9A; --accent-ink:#0A1310; --accent-soft:#1D392F; --accent-2:#77B6D4;
+  --ok:#5CC48C; --ok-soft:#1A3325; --warn:#E0AA55; --warn-soft:#382D17; --crit:#EE7F72; --crit-soft:#3C201D; --crit-2:#F2A49A;
+  --wa-chat:#0B141A; --wa-in:#202C33; --wa-out:#005C4B; --wa-head:#202C33; --wa-green:#00A884; --wa-ink:#E9EDEF; --wa-meta:#8696A0; --wa-tick:#53BDEB;
+  --sms-bg:#000000; --sms-in:#262628; --sms-out:#0B84FE; --sms-ink:#FFFFFF; --sms-meta:#8E8E93; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.mono{font-family:var(--f-mono)}
+.app{display:grid;grid-template-columns:232px minmax(0,1fr);min-height:100vh}
+.app>div{min-width:0}
+aside.side{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;align-self:start;background:var(--surface);border-right:1px solid var(--line);padding:18px 12px 18px max(12px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:18px;overflow-y:auto}
+.brand{padding:0 8px;display:flex;flex-direction:column;gap:2px}
+.brand b{font-family:var(--f-display);font-size:20px;letter-spacing:.06em}
+.brand span{font-size:11.5px;color:var(--muted)}
+.navgrp{display:flex;flex-direction:column;gap:2px}
+.navgrp>small{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);padding:0 10px 4px}
+.navgrp a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:6px;color:var(--ink);text-decoration:none;font-weight:500;font-size:13.5px}
+.navgrp a svg{width:16px;height:16px;flex:none;stroke:var(--muted);fill:none;stroke-width:1.7}
+.navgrp a:hover{background:var(--surface-2)}
+.navgrp a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+.navgrp a[aria-current="page"] svg{stroke:var(--accent-ink)}
+.side .foot{margin-top:auto;font-size:11px;color:var(--muted);padding:0 10px}
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:12px;padding-block:10px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));flex-wrap:wrap}
+.gsearch{position:relative;flex:1 1 280px;max-width:440px}
+.gsearch input[type=search]{width:100%;padding:8px 12px 8px 34px;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)}
+.gsearch svg{position:absolute;left:11px;top:50%;transform:translateY(-50%);width:15px;height:15px;stroke:var(--muted);fill:none;stroke-width:2}
+.sugg{position:absolute;left:0;right:0;top:calc(100% + 4px);background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:0 8px 24px rgba(0,0,0,.12);overflow:hidden;z-index:25}
+.sugg button{display:flex;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:8px 12px;border:0;background:none;cursor:pointer;font-size:13px}
+.sugg button:hover,.sugg button.on{background:var(--surface-2)}
+.sugg button span{color:var(--muted);font-size:12px}
+.tag-sample{font-size:10.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--warn);background:var(--warn-soft);padding:4px 8px;border-radius:4px;white-space:nowrap}
+.cut{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+main{padding-block:22px 64px;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));max-width:1320px;width:100%}
+@media (max-width:980px){
+  .app{grid-template-columns:1fr}
+  aside.side{position:static;height:auto;flex-direction:row;align-items:center;gap:8px;overflow-x:auto;border-right:0;border-bottom:1px solid var(--line);padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px))}
+  .navgrp{flex-direction:row}.navgrp>small,.side .foot{display:none}
+  .navgrp a{white-space:nowrap}
+  .brand{padding:0 8px 0 0}.brand span{display:none}
+  .topbar{top:env(safe-area-inset-top,0px)}
+  main,.topbar-in{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  .cut{margin-left:0}
+}
+h1{font-family:var(--f-display);font-size:23px;margin:0;line-height:1.2;text-wrap:balance}
+h2{font-family:var(--f-display);font-size:15px;margin:0;letter-spacing:.01em;text-wrap:balance}
+h3{font-size:13px;margin:0;font-weight:600}
+p{margin:0}
+.sub{color:var(--muted);font-size:13px;margin-top:3px}
+.head{display:flex;justify-content:space-between;align-items:flex-end;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.g5{grid-template-columns:repeat(5,minmax(0,1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,480px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr))}
+.g21{grid-template-columns:minmax(0,2fr) minmax(0,1fr)}
+@media (max-width:1100px){.g5{grid-template-columns:repeat(3,minmax(0,1fr))}.g21{grid-template-columns:1fr}}
+@media (max-width:760px){.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.mt{margin-top:14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.panel-h{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:13px 15px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.kpi .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.kpi .v{font-family:var(--f-display);font-size:clamp(17px,1.9vw,22px);font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.kpi .d{font-size:12px;color:var(--muted)}
+.kpi.alert{border-color:var(--crit)}
+.tbl{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:500;text-align:left;padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+th.sort{cursor:pointer}th.sort:hover{color:var(--ink)}
+td{padding:7px 9px;border-bottom:1px solid var(--line);white-space:nowrap}
+.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:600;border-top:2px solid var(--ink);border-bottom:none}
+tbody tr.click{cursor:pointer}
+tbody tr.click:hover td{background:var(--surface-2)}
+td.wrap{white-space:normal;min-width:220px}
+.pill{display:inline-block;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.p-ok{background:var(--ok-soft);color:var(--ok)}.p-warn{background:var(--warn-soft);color:var(--warn)}.p-crit{background:var(--crit-soft);color:var(--crit)}.p-mut{background:var(--surface-2);color:var(--muted)}.p-acc{background:var(--accent-soft);color:var(--accent)}
+.controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input[type=search],input[type=number],input[type=text]{font-size:13px;padding:7px 10px;border:1px solid var(--line);border-radius:6px;background:var(--surface)}
+button.btn{font-size:13px;font-weight:500;padding:7px 12px;border-radius:6px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+button.btn:hover{background:var(--surface-2)}
+button.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.btn:disabled{opacity:.45;cursor:default}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{font-size:12px;padding:5px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.note{font-size:12px;color:var(--muted)}
+.pager{display:flex;gap:8px;align-items:center;justify-content:flex-end;font-size:12px;color:var(--muted)}
+.bar{height:8px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+.stack{display:flex;height:14px;border-radius:4px;overflow:hidden}
+.stack i{display:block;height:100%}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}
+svg.chart{width:100%;height:auto;display:block}
+svg.chart text{fill:var(--muted);font-family:var(--f-body);font-size:11px}
+.kv{display:grid;grid-template-columns:1fr auto;gap:5px 16px;font-size:13px;margin:0}
+.kv dt{color:var(--muted)}.kv dd{margin:0;text-align:right;font-variant-numeric:tabular-nums}
+.kv .sep{grid-column:1/-1;border-top:1px solid var(--line);margin:3px 0}
+.kv .st{font-weight:600;color:var(--ink)}
+.heat td.h{text-align:right;font-variant-numeric:tabular-nums;cursor:pointer}
+.heat td.h:hover{outline:2px solid var(--accent);outline-offset:-2px}
+.heat td.h b{display:block;font-weight:600}
+.heat td.h span{font-size:11px;color:var(--muted)}
+/* Cliente 360 */
+.c360{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center}
+.c360 .who{display:flex;gap:14px;align-items:center;min-width:0}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:18px;flex:none}
+.c360 .meta{display:flex;gap:6px 14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
+.gauge{display:flex;align-items:center;gap:10px}
+.gauge svg{width:118px;height:70px}
+.gauge svg text{font-family:var(--f-display);fill:var(--ink)}
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{border:0;background:none;padding:9px 14px;font-weight:500;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
+.linecard{background:var(--accent);color:var(--accent-ink);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:14px}
+.linecard small{display:block;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.linecard .big{font-family:var(--f-display);font-size:26px;font-weight:600;font-variant-numeric:tabular-nums}
+.linecard .row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.linecard .bar{background:rgba(255,255,255,.25)}.linecard .bar i{background:var(--accent-ink)}
+.due{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.due div{border:1px solid var(--line);border-radius:8px;padding:10px 12px}
+.due .hl{border-color:var(--accent);background:var(--accent-soft)}
+.due .bad{border-color:var(--crit);background:var(--crit-soft)}
+.due small{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.due b{font-family:var(--f-display);font-size:18px;font-variant-numeric:tabular-nums}
+.hist{display:grid;grid-template-columns:repeat(12,minmax(34px,1fr));gap:4px}
+.hist div{border-radius:5px;text-align:center;padding:6px 2px;font-size:11px}
+.hist div b{display:block;font-size:13px;font-family:var(--f-mono)}
+.h0{background:var(--ok-soft);color:var(--ok)}.h1{background:var(--warn-soft);color:var(--warn)}.h2{background:var(--crit-soft);color:var(--crit)}.hn{background:var(--surface-2);color:var(--muted)}
+.wf{display:flex;flex-direction:column;gap:6px}
+.wf .r{display:grid;grid-template-columns:minmax(120px,1.2fr) 2fr auto;gap:10px;align-items:center;font-size:13px}
+.wf .r .bar{height:10px}
+.timeline{display:flex;flex-direction:column;gap:0}
+.timeline .ev{display:grid;grid-template-columns:78px 18px minmax(0,1fr);gap:10px;padding:8px 0}
+.timeline .dot{width:10px;height:10px;border-radius:50%;margin-top:5px;background:var(--accent)}
+.timeline .ev.crit .dot{background:var(--crit)}
+.timeline .when{font-size:12px;color:var(--muted);font-family:var(--f-mono)}
+.timeline .ch{display:flex;gap:6px;flex-wrap:wrap;margin-top:3px}
+/* Teléfonos */
+.phones{display:flex;gap:22px;flex-wrap:wrap;justify-content:center}
+.phonecol{flex:0 1 340px;min-width:0;display:flex;flex-direction:column;gap:10px;align-items:center}
+.phonecol>h3{font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.device{width:min(330px,100%);height:640px;border-radius:44px;background:#0A0D0C;padding:11px;box-shadow:0 18px 40px rgba(0,0,0,.18);position:relative;flex:none}
+.screen{width:100%;height:100%;border-radius:34px;overflow:hidden;display:flex;flex-direction:column;position:relative}
+.island{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:96px;height:26px;border-radius:14px;background:#0A0D0C;z-index:3}
+.sbar{height:42px;display:flex;justify-content:space-between;align-items:flex-end;padding:0 26px 6px;font-size:12.5px;font-weight:600;flex:none}
+.wa .sbar,.wa .whead{background:var(--wa-head);color:var(--wa-ink)}
+.whead{display:flex;align-items:center;gap:10px;padding:6px 12px 10px;border-bottom:1px solid rgba(0,0,0,.06);flex:none}
+.whead .av{width:36px;height:36px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:700;font-size:14px;flex:none}
+.whead .nm{font-weight:600;font-size:14.5px;display:flex;align-items:center;gap:4px}
+.whead .nm svg{width:15px;height:15px}
+.whead .st{font-size:11.5px;color:var(--wa-meta)}
+.whead .ic{margin-left:auto;display:flex;gap:16px;color:var(--wa-green)}
+.whead .ic svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8}
+.wchat{flex:1;overflow-y:auto;background-color:var(--wa-chat);background-image:radial-gradient(rgba(0,0,0,.035) 1px,transparent 1px);background-size:14px 14px;padding:10px 10px 6px;display:flex;flex-direction:column;gap:5px;scroll-behavior:smooth}
+.wday{align-self:center;background:var(--wa-in);color:var(--wa-meta);font-size:11px;padding:3px 10px;border-radius:7px;margin:6px 0;box-shadow:0 1px 0 rgba(0,0,0,.06)}
+.wsys{align-self:center;background:#FFF5C4;color:#54656F;font-size:10.5px;padding:5px 10px;border-radius:7px;text-align:center;max-width:88%}
+:root[data-theme="dark"] .wsys{background:#182229;color:#FFD279}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .wsys{background:#182229;color:#FFD279}}
+.wmsg{max-width:84%;display:flex;flex-direction:column;gap:2px}
+.wmsg.in{align-self:flex-start}.wmsg.out{align-self:flex-end}
+.wb{background:var(--wa-in);color:var(--wa-ink);border-radius:0 8px 8px 8px;padding:6px 8px 4px 9px;font-size:13px;line-height:1.38;box-shadow:0 1px 0 rgba(0,0,0,.08);white-space:pre-wrap;word-wrap:break-word}
+.out .wb{background:var(--wa-out);border-radius:8px 0 8px 8px}
+.wb .hd{font-weight:700;display:block;margin-bottom:2px}
+.wb .ft{display:block;color:var(--wa-meta);font-size:11px;margin-top:3px}
+.wb .tm{float:right;font-size:10.5px;color:var(--wa-meta);margin:6px 0 -2px 10px;display:inline-flex;gap:3px;align-items:center}
+.wb .tm svg{width:16px;height:11px}
+.wdoc{display:flex;gap:9px;align-items:center;background:rgba(0,0,0,.05);border-radius:6px;padding:8px;margin-bottom:4px}
+.wdoc .pdf{width:30px;height:36px;border-radius:3px;background:#E5483B;color:#fff;font-size:8.5px;font-weight:700;display:grid;place-items:end center;padding-bottom:4px;flex:none}
+.wdoc b{display:block;font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:180px}
+.wdoc span{font-size:11px;color:var(--wa-meta)}
+.wbtns{display:flex;flex-direction:column;gap:2px}
+.wbtns button{background:var(--wa-in);color:var(--wa-green);border:0;border-radius:8px;padding:8px;font-size:13px;font-weight:500;cursor:pointer;box-shadow:0 1px 0 rgba(0,0,0,.08);display:flex;gap:6px;justify-content:center;align-items:center}
+.wbtns button:hover{filter:brightness(.97)}
+.wbtns button:disabled{cursor:default;opacity:.55}
+.wbtns svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.typing{align-self:flex-start;background:var(--wa-in);border-radius:0 8px 8px 8px;padding:9px 12px;display:flex;gap:3px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--wa-meta);animation:tp 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes tp{0%,60%,100%{opacity:.3}30%{opacity:1}}
+.wfoot{display:flex;gap:8px;align-items:center;padding:7px 8px 14px;background:var(--wa-chat);flex:none}
+.wfoot .in{flex:1;background:var(--wa-in);border-radius:20px;padding:8px 14px;color:var(--wa-meta);font-size:13px}
+.wfoot .mic{width:38px;height:38px;border-radius:50%;background:var(--wa-green);display:grid;place-items:center}
+.wfoot .mic svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2}
+.sms .screen{background:var(--sms-bg);color:var(--sms-ink)}
+.sms .sbar{color:var(--sms-ink)}
+.shead{display:flex;flex-direction:column;align-items:center;gap:3px;padding:2px 0 10px;border-bottom:1px solid rgba(128,128,128,.22);flex:none}
+.shead .av{width:42px;height:42px;border-radius:50%;background:linear-gradient(#A5ABB8,#858994);color:#fff;display:grid;place-items:center;font-weight:600;font-size:15px}
+.shead b{font-size:12px;font-weight:500}
+.shead span{font-size:10.5px;color:var(--sms-meta)}
+.schat{flex:1;overflow-y:auto;padding:10px 12px;display:flex;flex-direction:column;gap:4px}
+.sday{align-self:center;font-size:10.5px;color:var(--sms-meta);margin:8px 0 3px}
+.sday b{font-weight:600}
+.sb{align-self:flex-start;max-width:80%;background:var(--sms-in);color:var(--sms-ink);border-radius:17px;padding:7px 12px;font-size:13.5px;line-height:1.33;white-space:pre-wrap;word-wrap:break-word}
+.sb.out{align-self:flex-end;background:var(--sms-out);color:#fff}
+.sinfo{align-self:flex-start;font-size:10px;color:var(--sms-meta);padding-left:8px;font-family:var(--f-mono)}
+.sfoot{display:flex;gap:8px;align-items:center;padding:8px 12px 16px;flex:none}
+.sfoot .in{flex:1;border:1px solid rgba(128,128,128,.35);border-radius:18px;padding:6px 12px;font-size:13px;color:var(--sms-meta)}
+.mail{border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface)}
+.mail .mh{padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;color:var(--muted);display:grid;gap:2px}
+.mail .mh b{color:var(--ink)}
+.mail .band{background:var(--accent);color:var(--accent-ink);padding:12px 18px;font-family:var(--f-display);font-weight:700;letter-spacing:.06em}
+.mail .mb{padding:16px 18px;display:flex;flex-direction:column;gap:10px;font-size:13.5px}
+.mail .box{background:var(--surface-2);border-radius:8px;padding:12px}
+.tplist{display:flex;flex-direction:column;gap:3px}
+.tplist button{display:flex;justify-content:space-between;align-items:center;gap:8px;text-align:left;border:1px solid transparent;background:none;padding:7px 10px;border-radius:6px;cursor:pointer;font-size:13px}
+.tplist button:hover{background:var(--surface-2)}
+.tplist button[aria-pressed="true"]{background:var(--accent-soft);border-color:var(--accent)}
+.tplist .w{font-size:11px;color:var(--muted);font-family:var(--f-mono)}
+.code{font-family:var(--f-mono);font-size:12px;background:var(--surface-2);border-radius:8px;padding:12px;white-space:pre-wrap;word-wrap:break-word;line-height:1.5}
+.code em{font-style:normal;color:var(--accent);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(20px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--surface);padding:10px 16px;border-radius:8px;font-size:13px;z-index:40;max-width:calc(100% - 32px)}
+
+.m-only{display:none}
+/* Teléfono y tablet */
+@media (max-width:980px){
+  aside.side{position:sticky;top:env(safe-area-inset-top,0px);z-index:22}
+  .topbar{position:static}
+  .navgrp a{padding:6px 10px;font-size:13px}
+}
+@media (max-width:640px){
+  body{font-size:13.5px}
+  main{padding-block:16px 48px}
+  h1{font-size:20px}
+  .head{align-items:stretch}
+  .head .controls{width:100%}
+  .head .controls select{flex:1 1 100%;min-width:0}
+  .head .controls .btn{flex:1 1 auto}
+  .controls select,.controls input[type=search]{flex:1 1 100%;min-width:0}
+  .panel{padding:13px;border-radius:9px}
+  .kpi{padding:11px 12px}
+  .kpi .v{font-size:17px}
+  .kpi .d{font-size:11.5px}
+  .tbl th:first-child,.tbl td:first-child{position:sticky;left:0;z-index:1;background:var(--surface)}
+  .tbl tbody tr.click:hover td:first-child{background:var(--surface-2)}
+  td,th{padding:7px 8px}
+  .cut{display:none}
+  .gsearch{flex-basis:100%;max-width:none}
+  .c360{grid-template-columns:1fr}
+  .gauge{justify-content:flex-start}
+  .linecard .big{font-size:22px}
+  .phones{gap:18px}
+  .phonecol{flex:1 1 100%}
+  .device{width:100%;max-width:360px;height:600px;border-radius:38px;padding:8px}
+  .screen{border-radius:31px}
+  .tplgrid{grid-template-columns:1fr!important}
+  .tplist{flex-direction:row;overflow-x:auto;padding-bottom:4px}
+  .tplist button{flex:none;white-space:nowrap}
+  .wf .r{grid-template-columns:1fr auto;}
+  .wf .r .bar{grid-column:1/-1;grid-row:2}
+  .timeline .ev{grid-template-columns:58px 14px minmax(0,1fr);gap:8px}
+  .pager{justify-content:space-between}
+  .legend{gap:8px 12px;font-size:11.5px}
+  .m-only{display:block;margin-top:2px}.d-only{display:none}
+  td.wrap{min-width:0}
+  svg.chart text{font-size:16px}
+}
+@media (max-width:400px){.g4,.g5{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:15.5px}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+</style>
+
+<div class="app">
+<aside class="side">
+  <div class="brand"><b>BOVEM</b><span>Gestión y cobranza de crédito al consumo</span></div>
+  <nav class="navgrp" aria-label="Cartera"><small>Cartera</small>
+    <a href="#resumen"><svg viewBox="0 0 24 24"><path d="M3 13h8V3H3zM13 21h8V11h-8zM3 21h8v-6H3zM13 3v6h8V3z"/></svg>Resumen ejecutivo</a>
+    <a href="#segmentacion"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 3v9l6.5 6"/></svg>Segmentación</a>
+    <a href="#crecimiento"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6"/></svg>Crecimiento</a>
+  </nav>
+  <nav class="navgrp" aria-label="Clientes"><small>Clientes</small>
+    <a href="#consultas"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Consultas</a>
+    <a href="#cliente"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>Cliente 360</a>
+  </nav>
+  <nav class="navgrp" aria-label="Operación"><small>Operación</small>
+    <a href="#autorizaciones"><svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h3"/></svg>Autorizaciones</a>
+    <a href="#cobranza"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>Cobranza y mora</a>
+    <a href="#riesgo"><svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.5-3.4 8.3-8 9-4.6-.7-8-4.5-8-9V7z"/></svg>Riesgo · NIIF 9</a>
+    <a href="#mensajeria"><svg viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.8 7L4 20l1.1-4.6A8 8 0 1 1 21 12z"/></svg>Mensajería</a>
+  </nav>
+  <div class="foot">Prototipo con datos de ejemplo.<br>Fecha de proceso 29/10/2026.</div>
+</aside>
+<div>
+  <div class="topbar"><div class="topbar-in">
+    <div class="gsearch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="gq" type="search" placeholder="Consultar cliente: nombre, cédula o cuenta" autocomplete="off" aria-label="Consultar cliente">
+      <div class="sugg" id="sugg" hidden></div></div>
+    <span class="tag-sample">Datos de ejemplo</span>
+    <span class="cut">Corte 25/10/2026 · vence 09/11/2026</span>
+  </div></div>
+  <main id="app"></main>
+</div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+"use strict";
+/* ================= Parámetros de producto (ejemplo, configurables) ================= */
+const P={tasaMensual:0.04,pctMinimo:0.08,minimoAbs:2500,cargoMora:1500,
+  corte:'25/10/2026',limite:'09/11/2026',corteAnt:'25/09/2026',ciclo:'Octubre 2026',hoy:'29/10/2026',
+  LGD:0.75,CCF:0.60,PD12:{A:0.008,B:0.018,C:0.040,D:0.085,E:0.150},PDvida:0.35,
+  aumento:{score:700,mob:6,util:0.60,pct:0.25}};
+const TOTAL=420000000, N=1240, ING12=240000000; // centavos
+const MESES=['Nov-25','Dic-25','Ene-26','Feb-26','Mar-26','Abr-26','May-26','Jun-26','Jul-26','Ago-26','Sep-26','Oct-26'];
+const CARTERA_MM=[3.12,3.21,3.30,3.38,3.47,3.55,3.64,3.73,3.84,3.95,4.07,4.20];
+
+function rng(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const R=rng(20261029);
+const pick=(r,arr)=>arr[Math.floor(r()*arr.length)];
+const NOM=['María','José','Luis','Carmen','Ana','Carlos','Yusmary','Jesús','Daniela','Miguel','Andreína','Rafael','Gabriela','Jorge','Valentina','Pedro','Mariela','Alejandro','Rosa','Fernando','Karla','Eduardo','Patricia','Héctor','Yelitza','Oscar','Lisbeth','Ramón','Diana','Víctor','Emilio','Johana','Ricardo','Nathaly','Gustavo','Rebeca'];
+const APE=['González','Rodríguez','Pérez','Hernández','García','Martínez','López','Sánchez','Ramírez','Torres','Díaz','Rojas','Moreno','Castillo','Mendoza','Silva','Medina','Suárez','Romero','Blanco','Gutiérrez','Vargas','Morales','Herrera','Peña','Rivas','Salazar','Contreras','Briceño','Acosta','Quintero','Urdaneta'];
+const CIUD=['Caracas','Valencia','Maracaibo','Barquisimeto','Maracay','Puerto La Cruz','Mérida','Barcelona','San Cristóbal','Maturín'];
+const PROF=['Empleado privado','Comerciante','Profesional independiente','Empleado público','Docente','Técnico'];
+const strip=s=>s.normalize('NFD').replace(/[̀-ͯ]/g,'');
+const DUE=k=>Date.UTC(2026,9-k,10); // vencimiento k meses atrás (0 = 10/10/2026)
+const HOY=Date.UTC(2026,9,29);
+const dpdFor=s=>s?Math.round((HOY-DUE(s-1))/86400000):0;
+
+/* ================= Simulación de comportamiento (cadena de rodamiento) ================= */
+const CURE=[0,0.50,0.28,0.17,0.10,0.06,0.04], ROLL=[0,0.32,0.52,0.64,0.74,0.80,0.85];
+const raw=[]; const castigos=[]; let sumRaw=0;
+while(raw.length<N){
+  const mob=1+Math.floor(Math.pow(R(),0.85)*36), risk=R();
+  const H=Math.min(mob,24); let s=0,hist=[],co=-1;
+  for(let m=0;m<H;m++){ if(s===0){s=R()<(0.018+0.10*risk*risk)?1:0;} else {const r=R(); if(r<CURE[s])s=0; else if(r<CURE[s]+ROLL[s])s=s+1;} hist.push(s); if(s===7){co=m;break;} }
+  const size=600+Math.pow(R(),1.8)*12000;
+  if(co>=0){castigos.push({mesesAtras:H-1-co,size});continue;}
+  const u=R(); const pref=u<0.17?'total':u<0.62?'rev':'min';
+  const sz=pref==='total'?size*0.45:size;
+  raw.push({mob,risk,hist,pref,size:sz}); sumRaw+=sz;
+}
+let acc=0;
+const accounts=raw.map((x,i)=>{
+  const r=rng(i*104729+7);
+  let bal=i<N-1?Math.round(x.size/sumRaw*TOTAL):TOTAL-acc; acc+=bal;
+  const cv=x.hist[x.hist.length-1];
+  const util= cv>0?0.75+r()*0.24 : x.pref==='total'?0.08+r()*0.32 : x.pref==='rev'?0.42+r()*0.48 : 0.62+r()*0.36;
+  const limit=Math.ceil(bal/util/50000)*50000;
+  const nombre=pick(r,NOM)+' '+pick(r,APE)+' '+pick(r,APE);
+  const parts=nombre.split(' ');
+  const ci='V-'+(7000000+Math.floor(r()*23000000)).toLocaleString('es-VE');
+  const tel='+58 4'+pick(r,['12','14','16','24','26'])+'-'+String(1000000+Math.floor(r()*8999999)).replace(/(\d{3})(\d{4})/,'$1-$2');
+  const email=strip(parts[0]+'.'+parts[1]).toLowerCase()+(i%89)+'@correo.com';
+  // plan en cuotas
+  let plan=null;
+  if(r()<0.34){const n=pick(r,[3,6,12]);const k=1+Math.floor(r()*n);const cuota=Math.round(bal*(0.22+r()*0.3)/n);const pend=cuota*(n-k+1);
+    if(pend<bal*0.6)plan={desc:pick(r,['Equipo de línea blanca','Teléfono inteligente','Laptop','Mobiliario','Televisor','Aire acondicionado']),n,k,cuota,total:cuota*n,pend};}
+  let minimo=Math.round(P.pctMinimo*(bal-(plan?plan.pend:0)))+(plan?plan.cuota:0);
+  minimo=Math.min(Math.max(minimo,P.minimoAbs),bal);
+  const vencido=Math.min(minimo*cv,bal);
+  // score de comportamiento 300–850
+  const h12=x.hist.slice(-12);
+  let pen=0; h12.forEach((s,k)=>{pen+=s*38*(0.5+0.5*(k+1)/h12.length);});
+  let score=690+Math.min(x.mob,24)*2-pen-(util>0.5?(util-0.5)*140:0)+(x.pref==='total'?45:x.pref==='rev'?12:-12)+(r()-0.5)*50-x.risk*40;
+  score=Math.round(Math.max(300,Math.min(850,score)));
+  const band=score>=740?'A':score>=680?'B':score>=620?'C':score>=560?'D':'E';
+  const moraHist=h12.some(s=>s>0);
+  const seg= cv>=2?'Mora > 30': cv===1?'Atraso 1–30': x.pref==='total'?'Totalero': x.pref==='rev'?'Revolvente':'Pago mínimo';
+  const stage= cv>=4?3 : (cv>=2||score<560)?2 : 1;
+  const tier= limit<100000?0: limit<300000?1: limit<500000?2: limit<1000000?3:4;
+  const gest= cv>0?pick(r,['Promesa de pago','Sin respuesta','Contactado','Acuerdo de pago','Número errado']):null;
+  const pagoParcial= cv>0 && r()<0.22;
+  const ciudad=pick(r,CIUD), prof=pick(r,PROF);
+  const optWA=r()<0.92, optMail=r()<0.86;
+  const origen=new Date(Date.UTC(2026,9-x.mob,1+Math.floor(r()*27)));
+  const autopay=cv===0&&r()<(x.pref==='total'?0.45:0.18);
+  return {id:i+1,cta:'BV-'+String(100000+i*7+13).padStart(6,'0'),nombre,ci,tel,email,ciudad,prof,optWA,optMail,
+    mob:x.mob,origen,hist:x.hist,pref:x.pref,bal,limit,util:bal/limit,cv,dpd:dpdFor(cv),plan,minimo,vencido,
+    cargos:P.cargoMora*cv,autopay,score,band,moraHist,seg,stage,tier,gest,pagoParcial,bloq:cv>=2};
+});
+const byId=id=>accounts.find(a=>a.id===+id);
+
+/* Series 12 meses */
+const carteraSerie=CARTERA_MM.map(v=>Math.round(v*1e8));
+const pesos=carteraSerie.map((v,i)=>i?(v+carteraSerie[i-1])/2:v);
+const sp=pesos.reduce((a,b)=>a+b,0);
+let ia=0; const ingresos=pesos.map((w,i)=>{const v=i<11?Math.round(w/sp*ING12):ING12-ia;ia+=v;return v;});
+const carteraProm=Math.round(carteraSerie.reduce((a,b)=>a+b,0)/12);
+const castSum=Math.round(castigos.filter(c=>c.mesesAtras<12).reduce((s,c)=>s+c.size,0)/sumRaw*TOTAL);
+const cast12=castigos.filter(c=>c.mesesAtras<12).length;
+
+/* ================= Utilidades ================= */
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const nf2=new Intl.NumberFormat('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2});
+const fm=c=>(c<0?'− ':'')+'$ '+nf2.format(Math.abs(c)/100);
+const fmm=c=>'$ '+nf2.format(c/1e8)+' MM';
+const ent=n=>n.toLocaleString('es-VE');
+const pc=(a,b,d=1)=>(b?a/b*100:0).toLocaleString('es-VE',{minimumFractionDigits:d,maximumFractionDigits:d})+' %';
+const sum=(arr,f)=>arr.reduce((s,a)=>s+f(a),0);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let toastT;function toast(m){const t=$('#toast');t.textContent=m;t.hidden=false;clearTimeout(toastT);toastT=setTimeout(()=>t.hidden=true,3400);}
+const BUCKETS=['Al día','1–30','31–60','61–90','91–180'];
+const bucketOf=a=>a.cv===0?'Al día':a.dpd<=30?'1–30':a.dpd<=60?'31–60':a.dpd<=90?'61–90':'91–180';
+const SEGS=['Totalero','Revolvente','Pago mínimo','Atraso 1–30','Mora > 30'];
+const SEGC={'Totalero':'var(--accent-2)','Revolvente':'var(--accent)','Pago mínimo':'var(--ok)','Atraso 1–30':'var(--warn)','Mora > 30':'var(--crit)'};
+const SEGD={'Totalero':'Paga el saldo total cada mes; no genera intereses','Revolvente':'Paga más que la cuota y menos que el total','Pago mínimo':'Paga solo la cuota del mes','Atraso 1–30':'Una cuota vencida, línea activa','Mora > 30':'Dos o más cuotas vencidas, línea bloqueada'};
+const TIERS=['< $ 1.000','$ 1.000 – 2.999','$ 3.000 – 4.999','$ 5.000 – 9.999','≥ $ 10.000'];
+const BANDS=['A','B','C','D','E'];
+const BANDR={A:'740–850',B:'680–739',C:'620–679',D:'560–619',E:'300–559'};
+function pill(a){if(a.cv===0)return'<span class="pill p-ok">Al día</span>';if(a.cv===1)return`<span class="pill p-warn">Mora ${a.dpd} d</span>`;return`<span class="pill p-crit">Mora ${a.dpd} d</span>`;}
+const segPill=s=>`<span class="pill" style="background:var(--surface-2);color:${SEGC[s]}">${s}</span>`;
+const stagePill=s=>`<span class="pill ${s===1?'p-ok':s===2?'p-warn':'p-crit'}">Etapa ${s}</span>`;
+const bandPill=b=>`<span class="pill ${b<='B'?'p-ok':b==='C'?'p-acc':b==='D'?'p-warn':'p-crit'}">${b}</span>`;
+const isElig=a=>a.cv===0&&!a.moraHist&&a.score>=P.aumento.score&&a.mob>=P.aumento.mob&&a.util>=P.aumento.util;
+const nuevoLim=a=>Math.ceil(a.limit*(1+P.aumento.pct)/50000)*50000;
+
+/* ECL NIIF 9 */
+function ecl(a){
+  const disp=a.bloq?0:a.limit-a.bal;
+  const ead=a.stage===3?a.bal:a.bal+Math.round(disp*P.CCF);
+  const pd=a.stage===1?P.PD12[a.band]:a.stage===2?Math.max(P.PDvida,P.PD12[a.band]):1;
+  return {ead,pd,ecl:Math.round(ead*pd*P.LGD)};
+}
+accounts.forEach(a=>{const e=ecl(a);a.ead=e.ead;a.pd=e.pd;a.ecl=e.ecl;});
+
+/* Estado de cuenta: saldo anterior + consumos + intereses + cargos − pagos = saldo al corte (exacto al centavo) */
+const MCC=[['5411','Supermercado'],['5912','Farmacia'],['5732','Electrónica'],['5651','Ropa y calzado'],['5812','Restaurante'],['5251','Ferretería'],['4814','Telefonía'],['8043','Óptica'],['5533','Repuestos'],['5942','Librería']];
+const STMT={};
+function statement(a){
+  if(STMT[a.id])return STMT[a.id];
+  const r=rng(a.id*7919+3), i=P.tasaMensual;
+  let C0,ant,Pg=0,intF,cargo=a.cv>0?P.cargoMora:0,cuotaAnt,C;
+  if(a.cv===0&&a.pref==='total'){ // totalero: paga el saldo completo, período de gracia sin intereses
+    C=a.bal; ant=Math.round(a.bal*(0.7+r()*0.6)); Pg=ant; intF=0; cuotaAnt=Math.min(Math.max(Math.round(P.pctMinimo*ant),P.minimoAbs),ant);
+  } else {
+    C0=a.bloq?0:Math.round(a.bal*(0.05+r()*0.2));
+    const k=a.cv>0?0:a.pref==='min'?1:1.3+r()*1.2;
+    if(a.cv===0){ant=Math.round((a.bal-C0)/(1+i-P.pctMinimo*k));}
+    else{ant=Math.round((a.bal-C0-cargo)/(1+i));}
+    cuotaAnt=Math.min(Math.max(Math.round(P.pctMinimo*ant),P.minimoAbs),ant);
+    if(a.cv===0)Pg=Math.round(cuotaAnt*k); else if(a.pagoParcial)Pg=Math.round(a.minimo*0.5);
+    intF=Math.round(ant*i);
+    C=a.bal-ant-intF-cargo+Pg;
+    if(C<0){C=0;intF=a.bal-ant-cargo+Pg;}
+  }
+  const mov=[]; const n=C>0?1+Math.floor(r()*4):0; let rem=C; const w=[];for(let k=0;k<n;k++)w.push(0.3+r());const ws=w.reduce((x,y)=>x+y,0);
+  for(let k=0;k<n;k++){const v=k<n-1?Math.round(C*w[k]/ws):rem;rem-=v;const d=26+Math.floor(r()*30),dd=d>30?d-30:d,mm=d>30?'10':'09';const m=pick(r,MCC);
+    mov.push({f:String(dd).padStart(2,'0')+'/'+mm+'/2026',d:m[1],mcc:m[0],v,t:'c',hr:String(9+Math.floor(r()*10)).padStart(2,'0')+':'+String(Math.floor(r()*60)).padStart(2,'0')});}
+  if(a.cv===0)mov.push({f:'10/10/2026',d:a.autopay?'Pago domiciliado':'Pago recibido · transferencia',v:-Pg,t:'p',hr:'14:22'});
+  else if(Pg)mov.push({f:'18/10/2026',d:'Pago parcial · Pago Móvil',v:-Pg,t:'p',hr:'11:05'});
+  if(cargo)mov.push({f:'11/10/2026',d:'Cargo por pago tardío',v:cargo,t:'f',hr:'00:00'});
+  if(intF)mov.push({f:'25/10/2026',d:'Intereses financieros',v:intF,t:'i',hr:'00:00'});
+  const key=f=>f.split('/').reverse().join('');
+  mov.sort((x,y)=>key(x.f)<key(y.f)?-1:key(x.f)>key(y.f)?1:0);
+  return STMT[a.id]={mov,C,Pg,cargo,ant,intF,cuotaAnt};
+}
+/* Aviso de pago mínimo (modelo de estados de cuenta de tarjetas en EE. UU.) */
+function payoff(b0,p1){let b=b0,m=0,tot=0;while(b>0&&m<600){const it=m?Math.round(b*P.tasaMensual):0;let p=m?Math.max(Math.round(P.pctMinimo*b),P.minimoAbs):p1;if(p>=b+it)p=b+it;b=b+it-p;tot+=p;m++;}return {m,tot};}
+
+/* ================= Gráficos ================= */
+function lineChart(series,labels,ticks,fmtT,opt={}){
+  const W=600,H=opt.h||220,l=62,r=28,t=14,b=28,mn=ticks[0],mx=ticks[ticks.length-1];
+  const n=labels.length,x=i=>l+i*(W-l-r)/(n-1),y=v=>t+(H-t-b)*(1-(v-mn)/(mx-mn));
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="${opt.aria||'Gráfico'}">`;
+  ticks.forEach(v=>s+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${l-8}" y="${y(v)+4}" text-anchor="end">${fmtT(v)}</text>`);
+  labels.forEach((m,i)=>{if(opt.every?i%opt.every===0:(i%2===1||i===n-1))s+=`<text x="${x(i)}" y="${H-8}" text-anchor="middle">${m}</text>`;});
+  series.forEach((se,k)=>{
+    const pts=se.v.map((v,i)=>v==null?null:[x(i),y(v)]).filter(Boolean);
+    if(!pts.length)return;
+    if(opt.area&&k===0)s+=`<polygon points="${pts[0][0]},${y(mn)} ${pts.map(p=>p.join(',')).join(' ')} ${pts[pts.length-1][0]},${y(mn)}" fill="var(--accent-soft)"/>`;
+    s+=`<polyline points="${pts.map(p=>p.join(',')).join(' ')}" fill="none" stroke="${se.c}" stroke-width="2"/>`;
+    const lp=pts[pts.length-1];s+=`<circle cx="${lp[0]}" cy="${lp[1]}" r="3.5" fill="${se.c}"/>`;
+  });
+  return s+'</svg>';
+}
+function barChart(vals,labels,ticks,fmtT,fmtV){
+  const W=600,H=220,l=62,r=16,t=14,b=28,mx=ticks[ticks.length-1],bw=(W-l-r)/vals.length,y=v=>t+(H-t-b)*(1-v/mx);
+  let s=`<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Barras">`;
+  ticks.forEach(v=>s+=`<line x1="${l}" x2="${W-r}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)"/><text x="${l-8}" y="${y(v)+4}" text-anchor="end">${fmtT(v)}</text>`);
+  vals.forEach((v,i)=>{s+=`<rect x="${l+i*bw+bw*.18}" y="${y(v)}" width="${bw*.64}" height="${y(0)-y(v)}" rx="2" fill="${i===vals.length-1?'var(--accent)':'var(--accent-soft)'}"><title>${labels[i]}: ${fmtV(v)}</title></rect>`;
+    if(i%2===1||i===vals.length-1)s+=`<text x="${l+i*bw+bw/2}" y="${H-8}" text-anchor="middle">${labels[i]}</text>`;});
+  return s+'</svg>';
+}
+function stackBar(parts){const tot=sum(parts,p=>p.v)||1;return `<div class="stack">${parts.map(p=>`<i title="${p.l}: ${pc(p.v,tot)}" style="width:${p.v/tot*100}%;background:${p.c}"></i>`).join('')}</div><div class="legend">${parts.map(p=>`<span><i style="background:${p.c}"></i>${p.l} ${pc(p.v,tot)}</span>`).join('')}</div>`;}
+
+/* ================= Agregados ================= */
+function aggBuckets(list){const g={};BUCKETS.forEach(b=>g[b]={n:0,bal:0,venc:0});list.forEach(a=>{const b=bucketOf(a);g[b].n++;g[b].bal+=a.bal;g[b].venc+=a.vencido;});return g;}
+const G=aggBuckets(accounts);
+const PAR30=sum(accounts.filter(a=>a.dpd>30),a=>a.bal), PAR90=sum(accounts.filter(a=>a.dpd>90),a=>a.bal);
+const LIM=sum(accounts,a=>a.limit), ECL=sum(accounts,a=>a.ecl);
+const EXIG=sum(accounts,a=>a.cv===0?a.minimo:a.vencido);
+const COBR=sum(accounts,a=>a.cv===0?a.minimo:(a.pagoParcial?Math.round(a.minimo*0.5):0));
+
+const V={};
+/* ================= Indicadores estándar de tarjetas ================= */
+function industryPanel(){
+  const S=accounts.map(a=>[a,statement(a)]);
+  const pagos=sum(S,x=>x[1].Pg), antT=sum(S,x=>x[1].ant);
+  const rev=sum(S.filter(x=>x[1].intF>0),x=>x[0].bal);
+  const act=S.filter(x=>x[1].C>0).length, cons=sum(S,x=>x[1].mov.filter(m=>m.t==='c').length), CT=sum(S,x=>x[1].C);
+  const d=(n)=>sum(accounts.filter(a=>a.dpd>=n),a=>a.bal);
+  const ald=accounts.filter(a=>a.cv===0);
+  const rows=[
+    ['Tasa de pago mensual (MPR)',pc(pagos,antT),'Pagos del ciclo ÷ saldo al corte anterior · '+fm(pagos)+' ÷ '+fm(antT)],
+    ['Saldo revolvente',pc(rev,TOTAL),'Cartera que genera intereses ÷ cartera bruta'],
+    ['Mora 30+ / 60+ / 90+',pc(d(30),TOTAL,2)+' · '+pc(d(60),TOTAL,2)+' · '+pc(d(90),TOTAL,2),'Saldo con 30, 60 y 90 días o más ÷ cartera bruta'],
+    ['Castigo neto anualizado (NCO)',pc(castSum,carteraProm,2),'Castigos 12 meses ÷ cartera promedio (sin recuperaciones en el ejemplo)'],
+    ['Cuentas activas en el ciclo',pc(act,N),ent(act)+' cuentas con al menos un consumo'],
+    ['Consumo promedio',fm(Math.round(CT/cons)),ent(cons)+' consumos por '+fm(CT)],
+    ['Pago domiciliado',pc(ald.filter(a=>a.autopay).length,ald.length),'Cuentas al día con débito automático'],
+    ['Tasa efectiva anual',((Math.pow(1+P.tasaMensual,12)-1)*100).toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})+' %','Tasa nominal '+(P.tasaMensual*1200).toLocaleString('es-VE',{minimumFractionDigits:2})+' % capitalizada mensualmente']];
+  return `<div class="panel mt"><div class="panel-h"><h2>Indicadores estándar de la industria de tarjetas</h2><span class="note">Ciclo ${P.ciclo}</span></div><div class="tbl"><table><thead><tr><th>Indicador</th><th class="n">Valor</th><th class="d-only">Cálculo</th></tr></thead><tbody>${rows.map(r=>`<tr><td class="wrap">${r[0]}<div class="note m-only">${r[2]}</div></td><td class="n"><b>${r[1]}</b></td><td class="note d-only">${r[2]}</td></tr>`).join('')}</tbody></table></div></div>`;
+}
+
+/* ================= Autorizaciones del día ================= */
+const AUTH=(()=>{const r=rng(29102026),out=[],otb={},BL=accounts.filter(x=>x.bloq);
+  for(let k=0;k<96;k++){const a=r()<0.08?BL[Math.floor(r()*BL.length)]:accounts[Math.floor(r()*N)];const m=pick(r,MCC);const amt=Math.round((5+Math.pow(r(),1.6)*480)*100);
+    const t=7*60+Math.floor(r()*14*60);const disp=otb[a.id]!=null?otb[a.id]:(a.bloq?0:a.limit-a.bal);
+    let code,txt;
+    if(a.bloq){code='62';txt='Línea bloqueada por mora';}
+    else if(amt>disp){code='51';txt='Fondos insuficientes';}
+    else if(amt>15000&&r()<0.12){code='59';txt='Sospecha de fraude · monto inusual';}
+    else{code='00';txt='Aprobada';otb[a.id]=disp-amt;}
+    out.push({a,mcc:m[0],com:m[1],amt,h:String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0'),code,txt,disp});}
+  return out.sort((x,y)=>x.h<y.h?1:-1);})();
+let af='todas';
+V.autorizaciones=()=>{
+  const ap=AUTH.filter(x=>x.code==='00'),dc=AUTH.filter(x=>x.code!=='00');
+  const L=AUTH.filter(x=>af==='todas'||(af==='ap'?x.code==='00':x.code!=='00'));
+  const reasons=['51','59','62'].map(c=>{const X=dc.filter(x=>x.code===c);return [c,X[0]?X[0].txt:{51:'Fondos insuficientes',59:'Sospecha de fraude · monto inusual',62:'Línea bloqueada por mora'}[c],X.length,sum(X,x=>x.amt)];});
+  const byM=MCC.map(([c,n])=>{const X=ap.filter(x=>x.mcc===c);return [c,n,X.length,sum(X,x=>x.amt)];}).filter(x=>x[2]).sort((x,y)=>y[3]-x[3]);
+  return `<div class="head"><div><h1>Autorizaciones</h1><p class="sub">Consumos solicitados hoy ${P.hoy} · pendientes de liquidación en el próximo corte</p></div></div>
+  <div class="grid g4">
+    <div class="kpi"><span class="l">Solicitudes</span><span class="v">${ent(AUTH.length)}</span><span class="d">${fm(sum(AUTH,x=>x.amt))}</span></div>
+    <div class="kpi"><span class="l">Aprobadas</span><span class="v">${pc(ap.length,AUTH.length)}</span><span class="d">${ent(ap.length)} · ${fm(sum(ap,x=>x.amt))}</span></div>
+    <div class="kpi"><span class="l">Declinadas</span><span class="v">${ent(dc.length)}</span><span class="d">${fm(sum(dc,x=>x.amt))}</span></div>
+    <div class="kpi"><span class="l">Ticket aprobado promedio</span><span class="v">${fm(ap.length?Math.round(sum(ap,x=>x.amt)/ap.length):0)}</span><span class="d">Por consumo</span></div></div>
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Motivos de rechazo</h2><div class="tbl"><table><thead><tr><th>Código</th><th>Motivo</th><th class="n">Solicitudes</th><th class="n">Monto</th></tr></thead><tbody>${reasons.map(r=>`<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td class="n">${ent(r[2])}</td><td class="n">${fm(r[3])}</td></tr>`).join('')}
+      <tr class="tot"><td colspan="2">Total declinadas</td><td class="n">${ent(dc.length)}</td><td class="n">${fm(sum(dc,x=>x.amt))}</td></tr></tbody></table></div><p class="note">Códigos de respuesta según la norma ISO 8583 usada por las redes de pago.</p></div>
+    <div class="panel"><h2>Aprobado por categoría de comercio</h2><div class="tbl"><table><thead><tr><th>MCC</th><th>Categoría</th><th class="n">Consumos</th><th class="n">Monto</th></tr></thead><tbody>${byM.map(r=>`<tr><td class="mono">${r[0]}</td><td>${r[1]}</td><td class="n">${ent(r[2])}</td><td class="n">${fm(r[3])}</td></tr>`).join('')}
+      <tr class="tot"><td colspan="2">Total aprobado</td><td class="n">${ent(ap.length)}</td><td class="n">${fm(sum(ap,x=>x.amt))}</td></tr></tbody></table></div></div></div>
+  <div class="panel mt"><div class="panel-h"><h2>Registro en línea</h2><div class="chips">${[['todas','Todas'],['ap','Aprobadas'],['dc','Declinadas']].map(([k,t])=>`<button class="chip" data-af="${k}" aria-pressed="${af===k}">${t}</button>`).join('')}</div></div>
+    <div class="tbl"><table><thead><tr><th>Hora</th><th>Cuenta</th><th>Cliente</th><th>Comercio</th><th>MCC</th><th class="n">Monto</th><th class="n">Disponible previo</th><th>Respuesta</th></tr></thead><tbody>
+    ${L.map(x=>`<tr class="click" data-id="${x.a.id}"><td class="mono">${x.h}</td><td class="mono">${x.a.cta}</td><td>${esc(x.a.nombre)}</td><td>${x.com}</td><td class="mono note">${x.mcc}</td><td class="n">${fm(x.amt)}</td><td class="n">${fm(x.disp)}</td><td><span class="pill ${x.code==='00'?'p-ok':x.code==='59'?'p-warn':'p-crit'}">${x.code} · ${x.txt}</span></td></tr>`).join('')}</tbody></table></div></div>`;
+};
+
+/* ================= Vistas ================= */
+V.resumen=()=>{
+  const segAgg=SEGS.map(s=>({l:s,v:sum(accounts.filter(a=>a.seg===s),a=>a.bal),c:SEGC[s]}));
+  const rows=BUCKETS.map(b=>`<tr><td>${b==='Al día'?b:b+' días'}</td><td class="n">${ent(G[b].n)}</td><td class="n">${fm(G[b].bal)}</td><td class="n">${pc(G[b].bal,TOTAL,2)}</td></tr>`).join('');
+  const crec=(carteraSerie[11]-carteraSerie[0])/carteraSerie[0];
+  return `<div class="head"><div><h1>Resumen ejecutivo</h1><p class="sub">Cartera de crédito al consumo · ciclo ${P.ciclo}</p></div></div>
+  <div class="grid g5">
+    <div class="kpi"><span class="l">Cartera bruta</span><span class="v">${fm(TOTAL)}</span><span class="d">${ent(N)} cuentas activas</span></div>
+    <div class="kpi"><span class="l">Ingresos 12 meses</span><span class="v">${fm(ING12)}</span><span class="d">Promedio mensual ${fm(ING12/12)}</span></div>
+    <div class="kpi"><span class="l">Rendimiento de cartera</span><span class="v">${pc(ING12,carteraProm)}</span><span class="d">Ingresos ÷ cartera promedio ${fm(carteraProm)}</span></div>
+    <div class="kpi"><span class="l">Crecimiento 12 meses</span><span class="v">${(crec*100).toLocaleString('es-VE',{minimumFractionDigits:1,maximumFractionDigits:1})} %</span><span class="d">${fm(carteraSerie[0])} → ${fm(carteraSerie[11])}</span></div>
+    <div class="kpi"><span class="l">Utilización de línea</span><span class="v">${pc(TOTAL,LIM)}</span><span class="d">Disponible ${fm(LIM-TOTAL)}</span></div>
+    <div class="kpi ${PAR30/TOTAL>0.08?'alert':''}"><span class="l">Mora &gt; 30 días (PAR30)</span><span class="v">${pc(PAR30,TOTAL,2)}</span><span class="d">${fm(PAR30)}</span></div>
+    <div class="kpi"><span class="l">Mora &gt; 90 días (PAR90)</span><span class="v">${pc(PAR90,TOTAL,2)}</span><span class="d">${fm(PAR90)}</span></div>
+    <div class="kpi"><span class="l">Provisión NIIF 9 (ECL)</span><span class="v">${fm(ECL)}</span><span class="d">Cobertura ${pc(ECL,TOTAL,2)} de la cartera</span></div>
+    <div class="kpi"><span class="l">Recuperación vto. 10/10</span><span class="v">${pc(COBR,EXIG)}</span><span class="d">${fm(COBR)} de ${fm(EXIG)}</span></div>
+    <div class="kpi"><span class="l">Castigos 12 meses</span><span class="v">${fm(castSum)}</span><span class="d">${ent(cast12)} cuentas &gt; 180 días</span></div>
+  </div>
+  ${industryPanel()}
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Evolución de cartera bruta</h2>${lineChart([{v:carteraSerie,c:'var(--accent)'}],MESES,[300000000,350000000,400000000,450000000],v=>nf2.format(v/1e8).replace(/,00$/,',0')+' MM',{area:true,aria:'Cartera bruta 12 meses'})}</div>
+    <div class="panel"><h2>Ingresos mensuales</h2>${barChart(ingresos,MESES,[0,5e6,1e7,1.5e7,2e7,2.5e7],v=>(v/1e5).toLocaleString('es-VE')+' M',fm)}<p class="note">Total 12 meses ${fm(ING12)} · último mes ${fm(ingresos[11])}</p></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="panel"><div class="panel-h"><h2>Saldo por comportamiento de pago</h2><a class="note" href="#segmentacion">Ver segmentación</a></div>${stackBar(segAgg)}
+      <div class="tbl"><table><thead><tr><th>Segmento</th><th class="n">Cuentas</th><th class="n">Saldo</th><th class="n">Utilización</th></tr></thead><tbody>
+      ${SEGS.map(s=>{const L=accounts.filter(a=>a.seg===s);return `<tr><td>${segPill(s)}</td><td class="n">${ent(L.length)}</td><td class="n">${fm(sum(L,a=>a.bal))}</td><td class="n">${pc(sum(L,a=>a.bal),sum(L,a=>a.limit))}</td></tr>`}).join('')}
+      <tr class="tot"><td>Total</td><td class="n">${ent(N)}</td><td class="n">${fm(TOTAL)}</td><td class="n">${pc(TOTAL,LIM)}</td></tr></tbody></table></div></div>
+    <div class="panel"><div class="panel-h"><h2>Antigüedad de saldos</h2><a class="note" href="#cobranza">Ver cobranza</a></div>
+      ${stackBar(BUCKETS.map((b,i)=>({l:b,v:G[b].bal,c:['var(--ok)','var(--warn)','#C98A3A','var(--crit)','var(--crit-2)'][i]})))}
+      <div class="tbl"><table><thead><tr><th>Tramo</th><th class="n">Cuentas</th><th class="n">Saldo</th><th class="n">% cartera</th></tr></thead><tbody>${rows}
+      <tr class="tot"><td>Total</td><td class="n">${ent(N)}</td><td class="n">${fm(TOTAL)}</td><td class="n">100,00 %</td></tr></tbody></table></div></div>
+  </div>`;
+};
+
+let segSel=null; // {seg,tier}
+V.segmentacion=()=>{
+  const cell=(s,t)=>accounts.filter(a=>a.seg===s&&a.tier===t);
+  const head=`<tr><th>Comportamiento \\ Límite</th>${TIERS.map(t=>`<th class="n">${t}</th>`).join('')}<th class="n">Total</th></tr>`;
+  const maxBal=Math.max(...SEGS.flatMap(s=>TIERS.map((_,t)=>sum(cell(s,t),a=>a.bal))));
+  const body=SEGS.map(s=>{const L=accounts.filter(a=>a.seg===s);return `<tr><td>${segPill(s)}</td>${TIERS.map((_,t)=>{const c=cell(s,t),b=sum(c,a=>a.bal),al=b/maxBal;
+      return `<td class="h" data-s="${s}" data-t="${t}" style="background:color-mix(in srgb, ${SEGC[s]} ${Math.round(al*38)}%, transparent)"><b>${fm(b)}</b><span>${ent(c.length)} ctas</span></td>`}).join('')}
+      <td class="n"><b>${fm(sum(L,a=>a.bal))}</b><br><span class="note">${ent(L.length)} ctas</span></td></tr>`}).join('');
+  const foot=`<tr class="tot"><td>Total</td>${TIERS.map((_,t)=>{const L=accounts.filter(a=>a.tier===t);return `<td class="n">${fm(sum(L,a=>a.bal))}<br><span class="note">${ent(L.length)} ctas</span></td>`}).join('')}<td class="n">${fm(TOTAL)}<br><span class="note">${ent(N)} ctas</span></td></tr>`;
+  const profile=SEGS.map(s=>{const L=accounts.filter(a=>a.seg===s);const n=L.length;
+    return `<tr><td>${segPill(s)}</td><td class="wrap note">${SEGD[s]}</td><td class="n">${fm(Math.round(sum(L,a=>a.bal)/n))}</td><td class="n">${fm(Math.round(sum(L,a=>a.limit)/n))}</td><td class="n">${pc(sum(L,a=>a.bal),sum(L,a=>a.limit))}</td><td class="n">${Math.round(sum(L,a=>a.score)/n)}</td><td class="n">${pc(L.filter(a=>a.moraHist).length,n)}</td><td class="n">${pc(sum(L,a=>a.ecl),sum(L,a=>a.bal),2)}</td></tr>`}).join('');
+  let detail='';
+  if(segSel){const L=accounts.filter(a=>a.seg===segSel.s&&a.tier===+segSel.t).sort((x,y)=>y.bal-x.bal);
+    detail=`<div class="panel mt"><div class="panel-h"><h2>${segSel.s} · límite ${TIERS[segSel.t]}</h2><span class="note">${ent(L.length)} cuentas · ${fm(sum(L,a=>a.bal))}</span></div>${acctTable(L.slice(0,40))}${L.length>40?`<p class="note">Se muestran 40 de ${ent(L.length)}. Use Consultas para ver todas.</p>`:''}</div>`;}
+  return `<div class="head"><div><h1>Segmentación de cartera</h1><p class="sub">Por comportamiento de pago (últimos ciclos) y tramo de límite de crédito</p></div></div>
+  <div class="grid g5">${SEGS.map(s=>{const L=accounts.filter(a=>a.seg===s);return `<div class="kpi" style="border-top:3px solid ${SEGC[s]}"><span class="l">${s}</span><span class="v">${ent(L.length)} ctas</span><span class="d">${fm(sum(L,a=>a.bal))} · ${pc(sum(L,a=>a.bal),TOTAL)}</span></div>`}).join('')}</div>
+  <div class="panel mt"><div class="panel-h"><h2>Matriz saldo por segmento y límite</h2><span class="note">Seleccione una celda para ver las cuentas</span></div>
+    <div class="tbl"><table class="heat"><thead>${head}</thead><tbody>${body}${foot}</tbody></table></div></div>
+  <div class="panel mt"><h2>Perfil de cada segmento</h2><div class="tbl"><table><thead><tr><th>Segmento</th><th>Definición</th><th class="n">Saldo prom.</th><th class="n">Límite prom.</th><th class="n">Utilización</th><th class="n">Score prom.</th><th class="n">Con mora 12 m</th><th class="n">ECL / saldo</th></tr></thead><tbody>${profile}</tbody></table></div></div>
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Distribución por banda de score</h2><div class="tbl"><table><thead><tr><th>Banda</th><th>Rango</th><th class="n">Cuentas</th><th class="n">Saldo</th><th class="n">PAR30</th></tr></thead><tbody>
+    ${BANDS.map(b=>{const L=accounts.filter(a=>a.band===b);const bl=sum(L,a=>a.bal);return `<tr><td>${bandPill(b)}</td><td class="mono">${BANDR[b]}</td><td class="n">${ent(L.length)}</td><td class="n">${fm(bl)}</td><td class="n">${pc(sum(L.filter(a=>a.dpd>30),a=>a.bal),bl,2)}</td></tr>`}).join('')}</tbody></table></div></div>
+    <div class="panel"><h2>Distribución por tramo de límite</h2><div class="tbl"><table><thead><tr><th>Límite</th><th class="n">Cuentas</th><th class="n">Límite total</th><th class="n">Saldo</th><th class="n">Utilización</th></tr></thead><tbody>
+    ${TIERS.map((t,i)=>{const L=accounts.filter(a=>a.tier===i);return `<tr><td>${t}</td><td class="n">${ent(L.length)}</td><td class="n">${fm(sum(L,a=>a.limit))}</td><td class="n">${fm(sum(L,a=>a.bal))}</td><td class="n">${pc(sum(L,a=>a.bal),sum(L,a=>a.limit))}</td></tr>`}).join('')}
+    <tr class="tot"><td>Total</td><td class="n">${ent(N)}</td><td class="n">${fm(LIM)}</td><td class="n">${fm(TOTAL)}</td><td class="n">${pc(TOTAL,LIM)}</td></tr></tbody></table></div></div>
+  </div>${detail}`;
+};
+
+function acctTable(L){return `<div class="tbl"><table><thead><tr><th>Cuenta</th><th>Cliente</th><th>Segmento</th><th class="n">Límite</th><th class="n">Saldo</th><th class="n">Utiliz.</th><th class="n">Cuota del mes</th><th class="n">Vencido</th><th>Score</th><th>Estado</th></tr></thead><tbody>
+  ${L.map(a=>`<tr class="click" data-id="${a.id}"><td class="mono">${a.cta}</td><td>${esc(a.nombre)}</td><td>${segPill(a.seg)}</td><td class="n">${fm(a.limit)}</td><td class="n">${fm(a.bal)}</td><td class="n">${pc(a.bal,a.limit,0)}</td><td class="n">${fm(a.minimo)}</td><td class="n">${a.vencido?fm(a.vencido):'—'}</td><td>${bandPill(a.band)} <span class="mono note">${a.score}</span></td><td>${pill(a)}</td></tr>`).join('')}</tbody></table></div>`;}
+
+let Q={q:'',seg:'',tier:'',band:'',stage:'',est:'',sort:'bal',dir:-1,page:0};
+V.consultas=()=>{
+  let L=accounts.filter(a=>(!Q.seg||a.seg===Q.seg)&&(Q.tier===''||a.tier===+Q.tier)&&(!Q.band||a.band===Q.band)&&(!Q.stage||a.stage===+Q.stage)&&(!Q.est||(Q.est==='aldia'?a.cv===0:Q.est==='mora'?a.cv>0:Q.est==='bloq'?a.bloq:isElig(a))));
+  if(Q.q){const q=strip(Q.q.toLowerCase());L=L.filter(a=>strip(a.nombre.toLowerCase()).includes(q)||a.cta.toLowerCase().includes(q)||a.ci.toLowerCase().replace(/\./g,'').includes(q.replace(/\./g,'')));}
+  const key={cta:a=>a.id,nombre:a=>a.nombre,limit:a=>a.limit,bal:a=>a.bal,util:a=>a.util,minimo:a=>a.minimo,vencido:a=>a.vencido,score:a=>a.score,dpd:a=>a.dpd}[Q.sort];
+  L.sort((x,y)=>{const p=key(x),q=key(y);return (p<q?-1:p>q?1:0)*Q.dir;});
+  const per=25,pages=Math.max(1,Math.ceil(L.length/per));Q.page=Math.min(Q.page,pages-1);
+  const sl=L.slice(Q.page*per,Q.page*per+per);
+  const th=(k,t,n)=>`<th class="sort ${n?'n':''}" data-k="${k}">${t}${Q.sort===k?(Q.dir<0?' ↓':' ↑'):''}</th>`;
+  const opt=(arr,v,lab)=>`<option value="">${lab}</option>`+arr.map(([val,txt])=>`<option value="${val}" ${String(v)===String(val)?'selected':''}>${txt}</option>`).join('');
+  return `<div class="head"><div><h1>Consultas de cartera</h1><p class="sub">Búsqueda y filtros combinados · seleccione una fila para abrir el Cliente 360</p></div></div>
+  <div class="panel"><div class="controls">
+    <input type="search" id="cq" placeholder="Nombre, cédula o cuenta" value="${esc(Q.q)}" style="flex:1 1 220px">
+    <select id="fseg" aria-label="Segmento">${opt(SEGS.map(s=>[s,s]),Q.seg,'Todos los segmentos')}</select>
+    <select id="ftier" aria-label="Límite">${opt(TIERS.map((t,i)=>[i,t]),Q.tier,'Todos los límites')}</select>
+    <select id="fband" aria-label="Score">${opt(BANDS.map(b=>[b,'Score '+b+' ('+BANDR[b]+')']),Q.band,'Todas las bandas')}</select>
+    <select id="fstage" aria-label="Etapa">${opt([[1,'Etapa 1'],[2,'Etapa 2'],[3,'Etapa 3']],Q.stage,'Todas las etapas NIIF 9')}</select>
+    <select id="fest" aria-label="Estado">${opt([['aldia','Al día'],['mora','En mora'],['bloq','Bloqueadas'],['elig','Elegibles a aumento']],Q.est,'Todos los estados')}</select>
+    <button class="btn" id="fclr">Limpiar</button></div>
+    <div class="grid g4">
+      <div class="kpi"><span class="l">Cuentas</span><span class="v">${ent(L.length)}</span><span class="d">${pc(L.length,N)} del total</span></div>
+      <div class="kpi"><span class="l">Saldo</span><span class="v">${fm(sum(L,a=>a.bal))}</span><span class="d">${pc(sum(L,a=>a.bal),TOTAL)} de la cartera</span></div>
+      <div class="kpi"><span class="l">Límite</span><span class="v">${fm(sum(L,a=>a.limit))}</span><span class="d">Utilización ${pc(sum(L,a=>a.bal),sum(L,a=>a.limit))}</span></div>
+      <div class="kpi"><span class="l">Vencido</span><span class="v">${fm(sum(L,a=>a.vencido))}</span><span class="d">${ent(L.filter(a=>a.cv>0).length)} cuentas en mora</span></div>
+    </div>
+    <div class="tbl"><table><thead><tr>${th('cta','Cuenta')}${th('nombre','Cliente')}<th>Cédula</th><th>Segmento</th>${th('limit','Límite',1)}${th('bal','Saldo',1)}${th('util','Utiliz.',1)}${th('minimo','Cuota del mes',1)}${th('vencido','Vencido',1)}${th('score','Score')}${th('dpd','Estado')}</tr></thead><tbody>
+    ${sl.map(a=>`<tr class="click" data-id="${a.id}"><td class="mono">${a.cta}</td><td>${esc(a.nombre)}</td><td>${a.ci}</td><td>${segPill(a.seg)}</td><td class="n">${fm(a.limit)}</td><td class="n">${fm(a.bal)}</td><td class="n">${pc(a.bal,a.limit,0)}</td><td class="n">${fm(a.minimo)}</td><td class="n">${a.vencido?fm(a.vencido):'—'}</td><td>${bandPill(a.band)} <span class="mono note">${a.score}</span></td><td>${pill(a)}</td></tr>`).join('')||'<tr><td colspan="11" class="note">Ninguna cuenta cumple los filtros.</td></tr>'}
+    </tbody></table></div>
+    <div class="pager"><span>Página ${Q.page+1} de ${pages}</span><button class="btn" id="pv" ${Q.page?'':'disabled'}>Anterior</button><button class="btn" id="nx" ${Q.page<pages-1?'':'disabled'}>Siguiente</button></div>
+  </div>`;
+};
+
+/* ---------- Cliente 360 ---------- */
+let sel=accounts.find(a=>a.cv===0&&a.plan&&a.pref==='rev'&&a.optWA)||accounts[0];
+let ctab='resumen', simAmt=null;
+function gauge(score){
+  const a0=Math.PI, f=(score-300)/550, ang=a0-f*Math.PI, cx=59,cy=60,r=48;
+  const px=cx+r*Math.cos(ang), py=cy-r*Math.sin(ang);
+  const col=score>=680?'var(--ok)':score>=620?'var(--accent)':score>=560?'var(--warn)':'var(--crit)';
+  return `<svg viewBox="0 0 118 70" role="img" aria-label="Score ${score}"><path d="M11 60 A48 48 0 0 1 107 60" fill="none" stroke="var(--surface-2)" stroke-width="9" stroke-linecap="round"/>
+  <path d="M11 60 A48 48 0 0 1 ${px.toFixed(1)} ${py.toFixed(1)}" fill="none" stroke="${col}" stroke-width="9" stroke-linecap="round"/>
+  <text x="59" y="56" text-anchor="middle" font-size="22" font-weight="700">${score}</text><text x="59" y="69" text-anchor="middle" font-size="9" style="fill:var(--muted)">300 – 850</text></svg>`;
+}
+function waterfall(a,amt){
+  const s=statement(a);
+  const cargos=Math.min(a.cargos,a.bal), intr=Math.min(s.intF,a.bal-cargos);
+  const venc=Math.max(0,Math.min(a.vencido,a.bal-cargos-intr)-0);
+  const cuota=Math.max(0,Math.min(a.minimo,a.bal-cargos-intr-venc));
+  const capital=a.bal-cargos-intr-venc-cuota;
+  const comp=[['Cargos por mora',cargos],['Intereses facturados',intr],['Cuotas vencidas',venc],['Cuota del mes',cuota],['Resto de capital',capital]];
+  let rest=amt;const out=comp.map(([l,v])=>{const ap=Math.min(rest,v);rest-=ap;return {l,v,ap};});
+  return {out,rest};
+}
+function commsFor(a){
+  const s=statement(a), ev=[];
+  ev.push({f:'25/09/2026',h:'08:00',t:'Estado de cuenta Septiembre 2026',ch:['WhatsApp','Email'],st:'Leído'});
+  if(a.cv<=1){ev.push({f:'04/10/2026',h:'08:00',t:'Recordatorio D−5',ch:['WhatsApp'],st:'Leído'});ev.push({f:'09/10/2026',h:'08:00',t:'Recordatorio D−1',ch:['WhatsApp','SMS'],st:'Entregado'});}
+  if(a.cv===0)ev.push({f:'10/10/2026',h:'14:23',t:'Pago recibido '+fm(s.Pg),ch:['WhatsApp','Email'],st:'Leído'});
+  if(a.cv===1){ev.push({f:'11/10/2026',h:'08:00',t:'Aviso de mora D+1',ch:['WhatsApp','SMS','Email'],st:'Leído',crit:1});ev.push({f:'25/10/2026',h:'09:00',t:'Segundo aviso D+15',ch:['WhatsApp','SMS'],st:'Entregado',crit:1});}
+  if(a.cv>=2){ev.push({f:'11/10/2026',h:'08:00',t:'Línea bloqueada por mora',ch:['WhatsApp','SMS','Email'],st:'Entregado',crit:1});ev.push({f:'20/10/2026',h:'10:40',t:'Llamada de gestor: '+a.gest,ch:['Teléfono'],st:'Registrado',crit:1});}
+  s.mov.filter(m=>m.t==='c'&&m.f.endsWith('/10/2026')).forEach(m=>ev.push({f:m.f,h:m.hr,t:'Consumo aprobado '+fm(m.v)+' · '+m.d,ch:['WhatsApp'],st:'Leído'}));
+  if(a.pagoParcial)ev.push({f:'18/10/2026',h:'11:06',t:'Pago parcial recibido '+fm(s.Pg),ch:['WhatsApp'],st:'Leído'});
+  ev.push({f:'25/10/2026',h:'08:00',t:'Estado de cuenta Octubre 2026',ch:a.optWA?['WhatsApp','Email']:['SMS','Email'],st:'Entregado'});
+  const k=e=>e.f.split('/').reverse().join('')+e.h;
+  return ev.sort((x,y)=>k(x)<k(y)?1:-1);
+}
+V.cliente=()=>{
+  const a=sel,s=statement(a),disp=a.limit-a.bal,ini=a.nombre.split(' ').map(w=>w[0]).slice(0,2).join('');
+  const el=isElig(a);
+  const tabs=[['resumen','Resumen'],['estado','Estado de cuenta'],['historial','Historial de pagos'],['simulador','Simular pago'],['comunicaciones','Comunicaciones'],['riesgo','Riesgo']];
+  let body='';
+  if(ctab==='resumen')body=`<div class="grid g2">
+    <div class="linecard"><div class="row"><div><small>Línea de crédito</small><b>${esc(a.nombre)}</b></div><div style="text-align:right"><small>Cuenta</small><span class="mono">${a.cta}</span></div></div>
+      <div class="row"><div><small>Disponible</small><span class="big">${a.bloq?'Bloqueada':fm(disp)}</span></div><div style="text-align:right"><small>Límite</small><span class="big" style="font-size:19px">${fm(a.limit)}</span></div></div>
+      <div><div class="bar"><i style="width:${a.util*100}%"></i></div><small style="margin-top:6px">Utilizado ${fm(a.bal)} · ${pc(a.bal,a.limit)}</small></div></div>
+    <div class="panel"><h2>Pagos del ciclo</h2><div class="due">
+      <div class="hl"><small>Cuota del mes</small><b>${fm(a.minimo)}</b></div>
+      <div class="${a.vencido?'bad':''}"><small>Cuotas en mora</small><b>${fm(a.vencido)}</b>${a.cv?`<span class="note" style="display:block">${a.cv} cuota(s) · ${a.dpd} días</span>`:''}</div>
+      <div><small>Para estar al día</small><b>${fm(a.minimo+a.vencido)}</b></div>
+      <div><small>Pago total</small><b>${fm(a.bal)}</b></div></div>
+      <dl class="kv"><dt>Fecha de corte</dt><dd>${P.corte}</dd><dt>Fecha límite</dt><dd>${P.limite}</dd></dl></div></div>
+    <div class="grid g3 mt">
+      <div class="panel"><h2>Datos del cliente</h2><dl class="kv"><dt>Cédula</dt><dd>${a.ci}</dd><dt>Ciudad</dt><dd>${a.ciudad}</dd><dt>Actividad</dt><dd>${a.prof}</dd><dt>Cliente desde</dt><dd>${a.origen.toLocaleDateString('es-VE',{timeZone:'UTC'})}</dd><dt>Antigüedad</dt><dd>${a.mob} meses</dd></dl></div>
+      <div class="panel"><h2>Contacto y autorizaciones</h2><dl class="kv"><dt>Celular</dt><dd class="mono">${a.tel}</dd><dt>Email</dt><dd>${a.email}</dd><dt>WhatsApp</dt><dd>${a.optWA?'<span class="pill p-ok">Autorizado</span>':'<span class="pill p-warn">No autorizado · SMS</span>'}</dd><dt>Email</dt><dd>${a.optMail?'<span class="pill p-ok">Autorizado</span>':'<span class="pill p-mut">No autorizado</span>'}</dd><dt>SMS</dt><dd><span class="pill p-ok">Autorizado</span></dd><dt>Pago domiciliado</dt><dd>${a.autopay?'<span class="pill p-acc">Activo</span>':'<span class="pill p-mut">No</span>'}</dd></dl></div>
+      <div class="panel"><h2>Aumento de límite</h2>${el?`<p><span class="pill p-ok">Elegible</span></p><dl class="kv"><dt>Límite actual</dt><dd>${fm(a.limit)}</dd><dt>Límite propuesto (+${P.aumento.pct*100} %)</dt><dd class="st">${fm(nuevoLim(a))}</dd><dt>Línea adicional</dt><dd>${fm(nuevoLim(a)-a.limit)}</dd></dl>`:`<p><span class="pill p-mut">No elegible</span></p><ul class="note" style="margin:0;padding-left:16px">${[[a.cv===0&&!a.moraHist,'Sin mora en 12 meses'],[a.score>=P.aumento.score,'Score ≥ '+P.aumento.score],[a.mob>=P.aumento.mob,'Antigüedad ≥ '+P.aumento.mob+' meses'],[a.util>=P.aumento.util,'Utilización ≥ '+P.aumento.util*100+' %']].map(([ok,t])=>`<li>${ok?'✓':'✗'} ${t}</li>`).join('')}</ul>`}</div>
+    </div>`;
+  if(ctab==='estado'){const po=payoff(a.bal,a.minimo+a.vencido);const yrs=m=>m>=12?Math.floor(m/12)+' años'+(m%12?' y '+(m%12)+' meses':''):m+' meses';
+    const tea=(Math.pow(1+P.tasaMensual,12)-1)*100;
+    body=`<div class="grid g3">
+    <div class="panel"><h2>Resumen de la cuenta</h2><dl class="kv"><dt>Saldo anterior</dt><dd>${fm(s.ant)}</dd><dt>(−) Pagos y créditos</dt><dd>${fm(-s.Pg)}</dd><dt>(+) Consumos</dt><dd>${fm(s.C)}</dd><dt>(+) Cargos</dt><dd>${fm(s.cargo)}</dd><dt>(+) Intereses</dt><dd>${fm(s.intF)}</dd><span class="sep"></span><dt class="st">Nuevo saldo</dt><dd class="st">${fm(a.bal)}</dd><span class="sep"></span><dt>Línea de crédito</dt><dd>${fm(a.limit)}</dd><dt>Crédito disponible</dt><dd>${a.bloq?'Bloqueada':fm(a.limit-a.bal)}</dd><dt>Período</dt><dd>26/09 – 25/10/2026 · 30 días</dd></dl></div>
+    <div class="panel" style="border-color:var(--ink)"><h2>Información de pago</h2><dl class="kv"><dt>Nuevo saldo</dt><dd>${fm(a.bal)}</dd><dt class="st">Pago mínimo</dt><dd class="st">${fm(a.minimo+a.vencido)}</dd>${a.vencido?`<dt>· incluye vencido</dt><dd>${fm(a.vencido)}</dd>`:''}<dt class="st">Fecha límite de pago</dt><dd class="st">${P.limite}</dd></dl>
+      <p class="note"><b>Aviso de pago tardío:</b> si no recibimos el pago mínimo antes de la fecha límite se aplica un cargo de ${fm(P.cargoMora)} y la línea puede bloquearse a los 31 días.</p></div>
+    <div class="panel"><h2>Aviso de pago mínimo</h2><p class="note">Si solo paga el mínimo cada mes y no hace consumos nuevos:</p>
+      <div class="tbl"><table><thead><tr><th>Si paga</th><th class="n">Termina en</th><th class="n">Total pagado</th></tr></thead><tbody>
+      <tr><td>Solo el mínimo</td><td class="n">${yrs(po.m)}</td><td class="n">${fm(po.tot)}</td></tr>
+      <tr><td>El saldo total</td><td class="n">Este mes</td><td class="n">${fm(a.bal)}</td></tr></tbody></table></div>
+      <p class="note">Intereses que evita pagando el total: <b>${fm(po.tot-a.bal)}</b>. Cálculo con ${(P.tasaMensual*100).toLocaleString('es-VE')} % mensual y pago mínimo de ${P.pctMinimo*100} % del saldo (mínimo ${fm(P.minimoAbs)}).</p></div></div>
+    <div class="grid g21 mt"><div class="panel"><h2>Transacciones</h2><div class="tbl"><table><thead><tr><th>Fecha</th><th>Descripción</th><th>MCC</th><th class="n">Monto</th></tr></thead><tbody>
+      ${s.mov.map(m=>`<tr><td>${m.f}</td><td>${m.d}${m.t==='c'?' · comercio afiliado':''}</td><td class="mono note">${m.mcc||''}</td><td class="n" style="${m.t==='p'?'color:var(--ok)':''}">${fm(m.v)}</td></tr>`).join('')}
+      <tr class="tot"><td colspan="3">Variación neta del período</td><td class="n">${fm(a.bal-s.ant)}</td></tr></tbody></table></div></div>
+    <div class="panel"><h2>Cargos por intereses</h2><dl class="kv"><dt>Tipo de saldo</dt><dd>Compras</dd><dt>Tasa nominal anual</dt><dd>${(P.tasaMensual*1200).toLocaleString('es-VE',{minimumFractionDigits:2})} %</dd><dt>Tasa efectiva anual</dt><dd>${tea.toLocaleString('es-VE',{minimumFractionDigits:2,maximumFractionDigits:2})} %</dd><dt>Saldo sujeto a interés</dt><dd>${fm(s.intF?s.ant:0)}</dd><dt class="st">Intereses del período</dt><dd class="st">${fm(s.intF)}</dd></dl>
+      <p class="note">${a.pref==='total'&&a.cv===0?'Pagó el saldo total del período anterior: los consumos no generan intereses (período de gracia).':'Paga el saldo total antes de la fecha límite y los consumos nuevos no generan intereses.'}</p>
+      <h2 style="margin-top:6px">Planes en cuotas</h2>${a.plan?`<dl class="kv"><dt>${a.plan.desc}</dt><dd>${fm(a.plan.total)}</dd><dt>Cuota ${a.plan.k} de ${a.plan.n}</dt><dd>${fm(a.plan.cuota)}</dd><dt>Pendiente (incl. actual)</dt><dd>${fm(a.plan.pend)}</dd></dl><p class="note">La cuota del plan está incluida en el pago mínimo.</p>`:'<p class="note">Sin planes en cuotas.</p>'}</div></div>`;}
+  if(ctab==='historial'){const h=a.hist.slice(-12),pad=12-h.length;
+    const cells=MESES.map((m,i)=>{if(i<pad)return `<div class="hn"><b>—</b>${m}</div>`;const v=h[i-pad];return `<div class="${v===0?'h0':v===1?'h1':'h2'}"><b>${v===0?'✓':v}</b>${m}</div>`;}).join('');
+    const al=h.filter(v=>v===0).length;
+    body=`<div class="panel"><div class="panel-h"><h2>Comportamiento en cada vencimiento (12 meses)</h2><div class="legend"><span><i style="background:var(--ok-soft)"></i>✓ Al día</span><span><i style="background:var(--warn-soft)"></i>1 cuota vencida</span><span><i style="background:var(--crit-soft)"></i>2 o más</span><span><i style="background:var(--surface-2)"></i>Sin cuenta</span></div></div>
+      <div class="tbl"><div class="hist" style="min-width:520px">${cells}</div></div>
+      <div class="grid g4"><div class="kpi"><span class="l">Vencimientos al día</span><span class="v">${al} de ${h.length}</span></div><div class="kpi"><span class="l">Máximo atraso</span><span class="v">${Math.max(...h)} cuota(s)</span></div><div class="kpi"><span class="l">Segmento actual</span><span class="v" style="font-size:17px">${a.seg}</span></div><div class="kpi"><span class="l">Score</span><span class="v">${a.score} · ${a.band}</span></div></div>
+      <p class="note">El número indica cuántas cuotas estaban vencidas en cada fecha de pago (día 10 de cada mes).</p></div>`;}
+  if(ctab==='simulador'){const amt=simAmt==null?a.minimo+a.vencido:simAmt,w=waterfall(a,amt);
+    body=`<div class="panel"><div class="panel-h"><h2>Aplicación de un pago</h2><div class="controls"><label for="samt" class="note">Monto USD</label><input id="samt" type="number" min="0" step="0.01" value="${(amt/100).toFixed(2)}" style="width:140px">
+      <button class="btn" data-q="${a.minimo}">Cuota</button><button class="btn" data-q="${a.minimo+a.vencido}">Al día</button><button class="btn" data-q="${a.bal}">Total</button></div></div>
+      <div class="wf">${w.out.map(o=>`<div class="r"><span>${o.l}<br><span class="note">${fm(o.v)}</span></span><div class="bar"><i style="width:${o.v?o.ap/o.v*100:0}%"></i></div><span class="n">${fm(o.ap)}</span></div>`).join('')}</div>
+      <dl class="kv"><dt>Monto pagado</dt><dd>${fm(amt)}</dd><dt>Aplicado</dt><dd>${fm(amt-w.rest)}</dd><dt>Excedente a favor</dt><dd>${fm(w.rest)}</dd><span class="sep"></span>
+      <dt class="st">Saldo después del pago</dt><dd class="st">${fm(a.bal-(amt-w.rest))}</dd><dt>Disponible después del pago</dt><dd>${(a.bloq&&amt<a.minimo+a.vencido)?'Sigue bloqueada':fm(a.limit-a.bal+(amt-w.rest))}</dd><dt>Estado después del pago</dt><dd>${amt>=a.minimo+a.vencido?'<span class="pill p-ok">Al día</span>':amt>=a.vencido&&a.cv>0?'<span class="pill p-warn">Cuotas vencidas cubiertas</span>':a.cv>0?'<span class="pill p-crit">Sigue en mora</span>':'<span class="pill p-warn">Cuota pendiente</span>'}</dd></dl>
+      <p class="note">Orden de aplicación: cargos → intereses → cuotas vencidas → cuota del mes → capital. Configurable por política.</p></div>`;}
+  if(ctab==='comunicaciones')body=`<div class="panel"><div class="panel-h"><h2>Historial de comunicaciones</h2><a href="#mensajeria" class="note">Ver mensajes en el teléfono del cliente</a></div><div class="timeline">${commsFor(a).map(e=>`<div class="ev ${e.crit?'crit':''}"><span class="when">${e.f.slice(0,5)}<br>${e.h}</span><span class="dot"></span><div><b style="font-weight:500">${e.t}</b><div class="ch">${e.ch.map(c=>`<span class="pill p-mut">${c}</span>`).join('')}<span class="pill ${e.st==='Leído'?'p-ok':'p-acc'}">${e.st}</span></div></div></div>`).join('')}</div></div>`;
+  if(ctab==='riesgo')body=`<div class="grid g2"><div class="panel"><h2>Clasificación NIIF 9</h2><dl class="kv"><dt>Etapa</dt><dd>${stagePill(a.stage)}</dd><dt>Banda de score</dt><dd>${bandPill(a.band)} ${a.score}</dd><dt>Saldo dispuesto</dt><dd>${fm(a.bal)}</dd><dt>Línea no dispuesta</dt><dd>${fm(a.bloq?0:a.limit-a.bal)}</dd><dt>Exposición (EAD)</dt><dd>${fm(a.ead)}</dd><dt>Probabilidad de incumplimiento (PD)</dt><dd>${(a.pd*100).toLocaleString('es-VE',{minimumFractionDigits:1})} %</dd><dt>Pérdida dado incumplimiento (LGD)</dt><dd>${P.LGD*100} %</dd><span class="sep"></span><dt class="st">Pérdida esperada (ECL)</dt><dd class="st">${fm(a.ecl)}</dd></dl>
+    <p class="note">EAD = saldo + ${P.CCF*100} % de la línea no dispuesta (etapas 1 y 2). ECL = PD × LGD × EAD.</p></div>
+    <div class="panel"><h2>Reporte de crédito (formato Metro 2)</h2><dl class="kv"><dt>Código de estado de la cuenta</dt><dd class="mono">${metroStatus(a)}</dd><dt>Saldo reportado</dt><dd>${fm(a.bal)}</dd><dt>Monto vencido reportado</dt><dd>${fm(a.vencido)}</dd><dt>Crédito máximo</dt><dd>${fm(a.limit)}</dd></dl>
+      <div><span class="note">Perfil de pagos 24 meses (más reciente a la izquierda)</span><div class="code" style="letter-spacing:.25em;margin-top:4px">${metroProfile(a)}</div></div>
+      <p class="note">0 = al día o menos de 30 días · 1 = 30–59 · 2 = 60–89 · 3 = 90–119 · 4 = 120–149 · 5 = 150–179 · B = sin historia. Estructura de referencia del estándar de reporte a burós en EE. UU.; se adapta al reporte local que aplique.</p>
+      <h2 style="margin-top:6px">Gestión de cobranza</h2>${a.cv?`<dl class="kv"><dt>Tramo</dt><dd>${bucketOf(a)} días</dd><dt>Estado de gestión</dt><dd>${a.gest}</dd><dt>Responsable</dt><dd>${gestor(a)}</dd><dt>Siguiente acción</dt><dd>${accion(a)}</dd></dl>`:'<p class="note">Cuenta al día. Recibe recordatorios automáticos D−5 y D−1.</p>'}</div></div>`;
+  const opts=accounts.slice(0,300).map(x=>`<option value="${x.id}" ${x.id===a.id?'selected':''}>${x.cta} · ${esc(x.nombre)}</option>`).join('');
+  return `<div class="head"><div><h1>Cliente 360</h1><p class="sub">Consulta individual de la cuenta</p></div>
+    <div class="controls"><select id="pick" aria-label="Cuenta">${a.id>300?`<option selected>${a.cta} · ${esc(a.nombre)}</option>`:''}${opts}</select>
+    <button class="btn" data-ex="mora">Ejemplo en mora</button><button class="btn" data-ex="total">Ejemplo totalero</button><button class="btn" data-ex="elig">Ejemplo elegible</button></div></div>
+  <div class="panel"><div class="c360"><div class="who"><div class="avatar">${ini}</div><div style="min-width:0"><h1 style="font-size:20px">${esc(a.nombre)}</h1><div class="meta"><span class="mono">${a.cta}</span><span>${a.ci}</span><span>${a.ciudad}</span><span>${a.mob} meses</span></div>
+    <div class="controls" style="margin-top:6px">${pill(a)}${segPill(a.seg)}${stagePill(a.stage)}${el?'<span class="pill p-acc">Elegible a aumento</span>':''}</div></div></div>
+    <div class="gauge">${gauge(a.score)}<div class="note">Score de<br>comportamiento<br>Banda ${a.band}</div></div></div>
+    <div class="tabs" role="tablist">${tabs.map(([k,t])=>`<button role="tab" data-tab="${k}" aria-selected="${ctab===k}">${t}</button>`).join('')}</div>
+    ${body}</div>`;
+};
+
+/* ---------- Cobranza ---------- */
+function metroStatus(a){const d=a.dpd;return d<30?'11 · Al día':d<60?'71 · 30–59 días':d<90?'78 · 60–89 días':d<120?'80 · 90–119 días':d<150?'82 · 120–149 días':'83 · 150–179 días';}
+function metroProfile(a){const h=a.hist.slice(-24).reverse();let out='';for(let k=0;k<24;k++)out+=k<h.length?String(Math.max(0,h[k]-1)):'B';return out;}
+const gestor=a=>a.cv===1?'Canal digital (automático)':a.cv===2?'Gestor A. Pérez':a.cv===3?'Gestor M. Rivas':'Agencia externa';
+const accion=a=>a.cv===1?'WhatsApp + SMS D+15 · oferta de acuerdo':a.cv===2?'Llamada · bloqueo de línea':a.cv===3?'Carta formal · acuerdo de pago':'Cobranza especializada / castigo a 180 días';
+let cf='todos';
+V.cobranza=()=>{
+  const mor=accounts.filter(a=>a.cv>0);
+  const L=mor.filter(a=>cf==='todos'||bucketOf(a)===cf).sort((x,y)=>y.dpd-x.dpd||y.vencido-x.vencido);
+  const prom=mor.filter(a=>a.gest==='Promesa de pago'||a.gest==='Acuerdo de pago');
+  const contact=mor.filter(a=>a.gest!=='Sin respuesta'&&a.gest!=='Número errado');
+  // matriz de rodamiento (cuentas)
+  const st=v=>Math.min(v,4), names=['Al día','1–30','31–60','61–90','> 90'];
+  const M=names.map(()=>names.map(()=>0)), RW=names.map(()=>0);
+  accounts.forEach(a=>{if(a.hist.length<2)return;const f=st(a.hist[a.hist.length-2]),t=st(a.hist[a.hist.length-1]);M[f][t]++;RW[f]++;});
+  const roll=`<div class="tbl"><table class="heat"><thead><tr><th>Desde (Sep) \\ Hacia (Oct)</th>${names.map(n=>`<th class="n">${n}</th>`).join('')}<th class="n">Cuentas</th></tr></thead><tbody>
+    ${names.map((n,i)=>`<tr><td>${n}</td>${names.map((_,j)=>{const v=RW[i]?M[i][j]/RW[i]:0;const col=j<i?'var(--ok)':j===i?'var(--accent-2)':'var(--crit)';return `<td class="n" style="background:color-mix(in srgb, ${col} ${Math.round(v*45)}%, transparent)">${RW[i]?pc(M[i][j],RW[i]):'—'}</td>`}).join('')}<td class="n">${ent(RW[i])}</td></tr>`).join('')}</tbody></table></div>`;
+  const gs=['Canal digital (automático)','Gestor A. Pérez','Gestor M. Rivas','Agencia externa'];
+  return `<div class="head"><div><h1>Cobranza y mora</h1><p class="sub">${ent(mor.length)} cuentas en mora · ${fm(sum(mor,a=>a.bal))} de saldo · ${fm(sum(mor,a=>a.vencido))} vencido</p></div></div>
+  <div class="grid g4">
+    <div class="kpi"><span class="l">Recuperación vto. 10/10</span><span class="v">${pc(COBR,EXIG)}</span><span class="d">${fm(COBR)} de ${fm(EXIG)}</span></div>
+    <div class="kpi"><span class="l">Contactabilidad</span><span class="v">${pc(contact.length,mor.length)}</span><span class="d">${ent(contact.length)} de ${ent(mor.length)} cuentas</span></div>
+    <div class="kpi"><span class="l">Promesas y acuerdos</span><span class="v">${ent(prom.length)}</span><span class="d">Monto comprometido ${fm(sum(prom,a=>a.vencido))}</span></div>
+    <div class="kpi"><span class="l">Cura del mes (1–30 → al día)</span><span class="v">${RW[1]?pc(M[1][0],RW[1]):'—'}</span><span class="d">${ent(M[1][0])} cuentas recuperadas</span></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Tramos de mora</h2><div class="tbl"><table><thead><tr><th>Tramo</th><th class="n">Cuentas</th><th class="n">Saldo</th><th class="n">Vencido</th><th class="n">% cartera</th></tr></thead><tbody>
+      ${BUCKETS.slice(1).map(b=>`<tr><td>${b} días</td><td class="n">${ent(G[b].n)}</td><td class="n">${fm(G[b].bal)}</td><td class="n">${fm(G[b].venc)}</td><td class="n">${pc(G[b].bal,TOTAL,2)}</td></tr>`).join('')}
+      <tr class="tot"><td>Total</td><td class="n">${ent(mor.length)}</td><td class="n">${fm(sum(mor,a=>a.bal))}</td><td class="n">${fm(sum(mor,a=>a.vencido))}</td><td class="n">${pc(sum(mor,a=>a.bal),TOTAL,2)}</td></tr></tbody></table></div></div>
+    <div class="panel"><h2>Matriz de rodamiento del mes</h2>${roll}<p class="note">% de cuentas de cada tramo de septiembre según su tramo en octubre. Verde: mejora · rojo: empeora.</p></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Estrategia por tramo</h2><div class="tbl"><table><thead><tr><th>Tramo</th><th>Canal</th><th>Acción</th><th>Responsable</th></tr></thead><tbody>
+      <tr><td>Preventiva</td><td>WhatsApp · SMS · email</td><td class="wrap">Recordatorios D−5, D−1 y D0</td><td>Automático</td></tr>
+      <tr><td>1–30</td><td>WhatsApp · SMS</td><td class="wrap">Aviso D+1 con cargo, D+15 con oferta de acuerdo</td><td>Canal digital</td></tr>
+      <tr><td>31–60</td><td>Teléfono · WhatsApp</td><td class="wrap">Bloqueo de línea, llamada y promesa de pago</td><td>Gestor interno</td></tr>
+      <tr><td>61–90</td><td>Teléfono · carta</td><td class="wrap">Carta formal y acuerdo de pago estructurado</td><td>Gestor senior</td></tr>
+      <tr><td>&gt; 90</td><td>Externo</td><td class="wrap">Cobranza especializada; castigo a los 180 días</td><td>Agencia externa</td></tr></tbody></table></div></div>
+    <div class="panel"><h2>Cartera asignada por responsable</h2><div class="tbl"><table><thead><tr><th>Responsable</th><th class="n">Cuentas</th><th class="n">Vencido</th><th class="n">Promesas</th><th class="n">Pagos parciales</th></tr></thead><tbody>
+      ${gs.map(g=>{const X=mor.filter(a=>gestor(a)===g);return `<tr><td>${g}</td><td class="n">${ent(X.length)}</td><td class="n">${fm(sum(X,a=>a.vencido))}</td><td class="n">${ent(X.filter(a=>a.gest==='Promesa de pago'||a.gest==='Acuerdo de pago').length)}</td><td class="n">${ent(X.filter(a=>a.pagoParcial).length)}</td></tr>`}).join('')}</tbody></table></div></div>
+  </div>
+  <div class="grid g2 mt">
+    <div class="panel"><h2>Estrategias campeona y retadora · tramo 1–30</h2>${(()=>{const X=accounts.filter(a=>a.hist.length>=2&&a.hist[a.hist.length-2]===1);const grp=[['A · Campeona','WhatsApp D+1 con cargo · SMS D+15',X.filter(a=>a.id%5!==0)],['B · Retadora','WhatsApp D+3 con oferta de acuerdo inmediata',X.filter(a=>a.id%5===0)]];
+      return `<div class="tbl"><table><thead><tr><th>Estrategia</th><th>Tratamiento</th><th class="n">Asignación</th><th class="n">Cuentas</th><th class="n">Curadas</th><th class="n">Tasa de cura</th></tr></thead><tbody>${grp.map(g=>{const c=g[2].filter(a=>a.cv===0).length;return `<tr><td>${g[0]}</td><td class="wrap note">${g[1]}</td><td class="n">${g[0][0]==='A'?'80 %':'20 %'}</td><td class="n">${ent(g[2].length)}</td><td class="n">${ent(c)}</td><td class="n"><b>${g[2].length?pc(c,g[2].length):'—'}</b></td></tr>`}).join('')}</tbody></table></div>`;})()}
+      <p class="note">Las cuentas que entran en mora se asignan al azar a cada estrategia; la que cura más se convierte en la nueva campeona. Muestra pequeña en el ejemplo.</p></div>
+    <div class="panel"><h2>Programas de acuerdo</h2><div class="tbl"><table><thead><tr><th>Programa</th><th>Tramo</th><th>Condición</th><th class="n">Cuentas</th></tr></thead><tbody>
+      <tr><td>Acuerdo corto</td><td>1–60</td><td class="wrap note">Vencido en hasta 3 pagos semanales; la línea se reactiva al completar</td><td class="n">${ent(mor.filter(a=>a.dpd<60).length)}</td></tr>
+      <tr><td>Reestructuración</td><td>61–150</td><td class="wrap note">Saldo a plazo fijo hasta 12 meses con tasa reducida; la cuenta vuelve al día tras 3 pagos consecutivos</td><td class="n">${ent(mor.filter(a=>a.dpd>=60&&a.dpd<150).length)}</td></tr>
+      <tr><td>Liquidación con descuento</td><td>&gt; 90</td><td class="wrap note">Pago único con descuento sobre el saldo; requiere aprobación de gerencia</td><td class="n">${ent(mor.filter(a=>a.dpd>=90).length)}</td></tr></tbody></table></div><p class="note">Una cuenta puede calificar a más de un programa.</p></div></div>
+  <div class="panel mt"><div class="panel-h"><h2>Cola de gestión</h2><div class="chips">${['todos',...BUCKETS.slice(1)].map(b=>`<button class="chip" data-b="${b}" aria-pressed="${cf===b}">${b==='todos'?'Todos':b+' d'}</button>`).join('')}</div></div>
+    <div class="tbl"><table><thead><tr><th>Cuenta</th><th>Cliente</th><th>Celular</th><th class="n">Días</th><th class="n">Vencido</th><th class="n">Saldo</th><th>Gestión</th><th>Responsable</th><th>Siguiente acción</th></tr></thead><tbody>
+    ${L.slice(0,50).map(a=>`<tr class="click" data-id="${a.id}"><td class="mono">${a.cta}</td><td>${esc(a.nombre)}</td><td class="mono">${a.tel}</td><td class="n">${a.dpd}</td><td class="n">${fm(a.vencido)}</td><td class="n">${fm(a.bal)}</td><td><span class="pill ${/Promesa|Acuerdo/.test(a.gest)?'p-ok':a.gest==='Contactado'?'p-mut':'p-warn'}">${a.gest}</span></td><td>${gestor(a)}</td><td>${accion(a)}</td></tr>`).join('')}</tbody></table></div>
+    <p class="note">${L.length>50?`Se muestran 50 de ${ent(L.length)} cuentas.`:''} Ordenado por días de mora.</p></div>`;
+};
+
+/* ---------- Riesgo NIIF 9 ---------- */
+V.riesgo=()=>{
+  const rows=[1,2,3].map(s=>{const L=accounts.filter(a=>a.stage===s);return {s,n:L.length,bal:sum(L,a=>a.bal),ead:sum(L,a=>a.ead),ecl:sum(L,a=>a.ecl)};});
+  const tEad=sum(rows,r=>r.ead);
+  // cosechas por trimestre de originación
+  const qOf=a=>{const d=new Date(Date.UTC(2026,9-a.mob,1));return d.getUTCFullYear()+'-T'+(Math.floor(d.getUTCMonth()/3)+1);};
+  const cohorts=['2024-T4','2025-T1','2025-T2','2025-T3','2025-T4','2026-T1'];
+  const cols=['var(--accent-2)','var(--accent)','var(--ok)','var(--warn)','var(--crit)','var(--crit-2)'];
+  const maxM=12, series=cohorts.map((c,k)=>{const L=accounts.filter(a=>qOf(a)===c);const v=[];
+    for(let m=1;m<=maxM;m++){const X=L.filter(a=>a.mob>=m&&a.mob-m<a.hist.length);if(X.length<15){v.push(null);continue;}
+      const bad=X.filter(a=>a.hist[a.hist.length-1-(a.mob-m)]>=2).length;v.push(bad/X.length*100);}
+    return {v,c:cols[k],name:c,n:L.length};});
+  const vmax=Math.max(4,...series.flatMap(s=>s.v.filter(x=>x!=null)));const top=Math.ceil(vmax/2)*2;
+  const tk=[];for(let i=0;i<=top;i+=2)tk.push(i);
+  return `<div class="head"><div><h1>Riesgo de crédito · NIIF 9</h1><p class="sub">Pérdida crediticia esperada por etapas, cosechas y parámetros del modelo</p></div></div>
+  <div class="grid g4">
+    <div class="kpi"><span class="l">Exposición total (EAD)</span><span class="v">${fm(tEad)}</span><span class="d">Saldo + ${P.CCF*100} % de línea no dispuesta</span></div>
+    <div class="kpi"><span class="l">Pérdida esperada (ECL)</span><span class="v">${fm(ECL)}</span><span class="d">${pc(ECL,TOTAL,2)} de la cartera bruta</span></div>
+    <div class="kpi"><span class="l">Cobertura etapa 3</span><span class="v">${pc(rows[2].ecl,rows[2].bal)}</span><span class="d">ECL ÷ saldo en incumplimiento</span></div>
+    <div class="kpi"><span class="l">Castigos 12 meses</span><span class="v">${pc(castSum,carteraProm,2)}</span><span class="d">${fm(castSum)} ÷ cartera promedio</span></div>
+  </div>
+  <div class="panel mt"><h2>Provisión por etapa</h2><div class="tbl"><table><thead><tr><th>Etapa</th><th>Criterio</th><th class="n">Cuentas</th><th class="n">Saldo</th><th class="n">EAD</th><th class="n">ECL</th><th class="n">Cobertura</th></tr></thead><tbody>
+    ${rows.map(r=>`<tr><td>${stagePill(r.s)}</td><td class="wrap note">${['Hasta 30 días de mora · PD a 12 meses','31 a 90 días o score &lt; 560 (aumento significativo de riesgo) · PD vida','Más de 90 días (incumplimiento) · PD 100 %'][r.s-1]}</td><td class="n">${ent(r.n)}</td><td class="n">${fm(r.bal)}</td><td class="n">${fm(r.ead)}</td><td class="n">${fm(r.ecl)}</td><td class="n">${pc(r.ecl,r.bal,2)}</td></tr>`).join('')}
+    <tr class="tot"><td>Total</td><td></td><td class="n">${ent(N)}</td><td class="n">${fm(TOTAL)}</td><td class="n">${fm(tEad)}</td><td class="n">${fm(ECL)}</td><td class="n">${pc(ECL,TOTAL,2)}</td></tr></tbody></table></div></div>
+  <div class="grid g21 mt">
+    <div class="panel"><h2>Cosechas: % de cuentas con más de 30 días de mora por mes en libros</h2>
+      ${lineChart(series.map(s=>({v:s.v,c:s.c})),Array.from({length:maxM},(_,i)=>'M'+(i+1)),tk,v=>v+' %',{every:1,aria:'Curvas de cosecha'})}
+      <div class="legend">${series.map(s=>`<span><i style="background:${s.c}"></i>${s.name} (${ent(s.n)} ctas)</span>`).join('')}</div>
+      <p class="note">Cada línea agrupa los créditos originados en un trimestre y muestra su mora en cada mes desde la apertura. Permite comparar la calidad de originación.</p></div>
+    <div class="panel"><h2>Parámetros del modelo</h2><div class="tbl"><table><thead><tr><th>Banda</th><th class="n">PD 12 m</th><th class="n">Cuentas</th></tr></thead><tbody>
+      ${BANDS.map(b=>`<tr><td>${bandPill(b)} <span class="mono note">${BANDR[b]}</span></td><td class="n">${(P.PD12[b]*100).toLocaleString('es-VE',{minimumFractionDigits:1})} %</td><td class="n">${ent(accounts.filter(a=>a.band===b).length)}</td></tr>`).join('')}</tbody></table></div>
+      <dl class="kv"><dt>PD vida (etapa 2)</dt><dd>${P.PDvida*100} %</dd><dt>PD etapa 3</dt><dd>100 %</dd><dt>LGD (consumo sin garantía)</dt><dd>${P.LGD*100} %</dd><dt>Factor de conversión (CCF)</dt><dd>${P.CCF*100} %</dd></dl>
+      <p class="note">Valores ilustrativos. En producción se calibran con la historia de pérdidas de Bovem y la normativa aplicable.</p></div>
+  </div>`;
+};
+
+/* ---------- Crecimiento ---------- */
+let G1={pct:25,uso:55};
+V.crecimiento=()=>{
+  const E=accounts.filter(isElig);
+  const add=sum(E,a=>Math.ceil(a.limit*(1+G1.pct/100)/50000)*50000-a.limit);
+  const incr=Math.round(add*G1.uso/100);
+  const yieldA=ING12/carteraProm, ingInc=Math.round(incr*yieldA);
+  const dist=SEGS.map(s=>({l:s,v:E.filter(a=>a.seg===s).length,c:SEGC[s]})).filter(x=>x.v);
+  return `<div class="head"><div><h1>Crecimiento de cartera</h1><p class="sub">Aumentos de límite a clientes con buen comportamiento</p></div></div>
+  <div class="grid g3">
+    <div class="panel"><h2>Reglas de elegibilidad</h2><dl class="kv"><dt>Mora en 12 meses</dt><dd>Ninguna</dd><dt>Score mínimo</dt><dd>${P.aumento.score}</dd><dt>Antigüedad mínima</dt><dd>${P.aumento.mob} meses</dd><dt>Utilización mínima</dt><dd>${P.aumento.util*100} %</dd></dl><p class="note">Reglas configurables por política de riesgo.</p></div>
+    <div class="panel"><h2>Simulador</h2>
+      <label class="note" for="gp">Aumento de límite: <b id="gpv">${G1.pct} %</b></label><input id="gp" type="range" min="10" max="50" step="5" value="${G1.pct}">
+      <label class="note" for="gu">Uso esperado de la línea adicional: <b id="guv">${G1.uso} %</b></label><input id="gu" type="range" min="20" max="90" step="5" value="${G1.uso}"></div>
+    <div class="panel"><h2>Resultado estimado</h2><dl class="kv"><dt>Cuentas elegibles</dt><dd>${ent(E.length)}</dd><dt>Línea adicional</dt><dd>${fm(add)}</dd><dt>Cartera incremental</dt><dd class="st">${fm(incr)}</dd><dt>Cartera resultante</dt><dd>${fm(TOTAL+incr)}</dd><span class="sep"></span><dt>Ingreso anual incremental</dt><dd class="st">${fm(ingInc)}</dd></dl>
+      <p class="note">Ingreso = cartera incremental × rendimiento observado ${pc(ING12,carteraProm)}; bruto, antes de pérdidas.</p></div>
+  </div>
+  <div class="panel mt"><div class="panel-h"><h2>Cuentas elegibles</h2>${stackBar(dist).replace('<div class="legend">','<div class="legend" style="margin-left:auto">')}</div>
+    <div class="tbl"><table><thead><tr><th>Cuenta</th><th>Cliente</th><th>Segmento</th><th>Score</th><th class="n">Antigüedad</th><th class="n">Utilización</th><th class="n">Límite actual</th><th class="n">Límite propuesto</th><th class="n">Adicional</th></tr></thead><tbody>
+    ${E.sort((x,y)=>y.score-x.score).slice(0,40).map(a=>{const nl=Math.ceil(a.limit*(1+G1.pct/100)/50000)*50000;return `<tr class="click" data-id="${a.id}"><td class="mono">${a.cta}</td><td>${esc(a.nombre)}</td><td>${segPill(a.seg)}</td><td>${bandPill(a.band)} <span class="mono note">${a.score}</span></td><td class="n">${a.mob} m</td><td class="n">${pc(a.bal,a.limit,0)}</td><td class="n">${fm(a.limit)}</td><td class="n">${fm(nl)}</td><td class="n">${fm(nl-a.limit)}</td></tr>`}).join('')}</tbody></table></div>
+    <p class="note">${E.length>40?`Se muestran 40 de ${ent(E.length)}, ordenadas por score.`:''} Límites redondeados a múltiplos de $ 500.</p></div>`;
+};
+
+/* ---------- Mensajería ---------- */
+const GSM="@£$¥èéùìòÇ\nØø\rÅåΔ_ΦΓΛΩΠΨΣΘΞÆæßÉ !\"#¤%&'()*+,-./0123456789:;<=>?¡ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÑÜ§¿abcdefghijklmnopqrstuvwxyzäöñüà", GSMX="^{}\\[~]|€";
+function smsInfo(t){let gsm=true,len=0;for(const ch of t){if(GSM.includes(ch))len++;else if(GSMX.includes(ch))len+=2;else{gsm=false;break;}}
+  if(!gsm){len=[...t].length;return {enc:'UCS-2',len,seg:len<=70?1:Math.ceil(len/67)};}return {enc:'GSM-7',len,seg:len<=160?1:Math.ceil(len/153)};}
+const first=a=>a.nombre.split(' ')[0];
+const TPL=[
+  {k:'estado',n:'Estado de cuenta',w:'Corte'},{k:'d5',n:'Recordatorio',w:'D−5'},{k:'d1',n:'Recordatorio',w:'D−1'},{k:'d0',n:'Vence hoy',w:'D0'},
+  {k:'consumo',n:'Consumo aprobado',w:'En línea'},{k:'pago',n:'Pago recibido',w:'En línea'},
+  {k:'m1',n:'Aviso de mora',w:'D+1'},{k:'m15',n:'Segundo aviso',w:'D+15'},{k:'bloq',n:'Bloqueo de línea',w:'D+31'},{k:'aumento',n:'Aumento de límite',w:'Campaña'}];
+function waTpl(k,a){
+  const s=statement(a),c=s.mov.find(m=>m.t==='c'),nm=first(a);
+  const T={
+    estadoAnt:{hd:'Estado de cuenta Septiembre 2026',b:`Hola ${nm}, tu estado de cuenta está listo.\n\nSaldo al corte: *${fm(s.ant)}*\nPago mínimo: *${fm(s.cuotaAnt)}*\nFecha límite: *10/10/2026*`,doc:'Sep',bt:['Cómo pagar','Ver movimientos']},
+    estado:{hd:'Estado de cuenta '+P.ciclo,b:`Hola ${nm}, tu estado de cuenta está listo.\n\nSaldo al corte: *${fm(a.bal)}*\nCuota del mes: *${fm(a.minimo)}*${a.vencido?`\nCuotas en mora: *${fm(a.vencido)}*`:''}\nFecha límite: *${P.limite}*\nDisponible: *${a.bloq?'línea bloqueada':fm(a.limit-a.bal)}*`,doc:'Oct',bt:['Cómo pagar','Ver movimientos']},
+    d5:{b:`Hola ${nm}, tu cuota de *${fm(a.minimo)}* vence el *${P.limite}*.\nPara quedar sin deuda puedes pagar el total de ${fm(a.bal)}.`,bt:['Cómo pagar','Ya pagué']},
+    d1:{b:`Hola ${nm}, mañana *${P.limite}* vence tu cuota de *${fm(a.minimo)}*. Paga a tiempo y evita el cargo por mora de ${fm(P.cargoMora)}.`,bt:['Cómo pagar','Ya pagué']},
+    d0:{b:`Hola ${nm}, *hoy* vence tu cuota de *${fm(a.minimo)}* de la línea ${a.cta}.`,bt:['Cómo pagar','Ya pagué']},
+    consumo:{b:`Consumo aprobado por *${fm(c?c.v:12500)}* en ${c?c.d:'Supermercado'} con tu línea ${a.cta}.\n¿No reconoces esta compra?`,bt:['Fui yo','BLOQUEAR']},
+    pago:{b:`Recibimos tu pago de *${fm(s.Pg||a.minimo)}* en la línea ${a.cta}. ¡Gracias, ${nm}!`,bt:['Ver movimientos']},
+    m1:{b:`Hola ${nm}, no recibimos tu cuota de *${fm(a.minimo)}* con vencimiento 10/10/2026. Se aplicó un cargo por mora de ${fm(P.cargoMora)}.\nPonte al día para mantener tu línea activa.`,bt:['Pagar ahora','Hablar con un asesor']},
+    m15:{b:`Hola ${nm}, tu cuenta ${a.cta} tiene 15 días de atraso.\nMonto para ponerte al día: *${fm(Math.max(a.vencido,a.minimo)+P.cargoMora)}*.\nTe ofrecemos dividirlo en pagos semanales.`,bt:['ACUERDO','Pagar ahora']},
+    bloq:{b:`Hola ${nm}, por mora mayor a 30 días tu línea ${a.cta} quedó *bloqueada* para nuevos consumos.\nMonto vencido: *${fm(Math.max(a.vencido,a.minimo*2))}*. Al ponerte al día se reactiva de inmediato.`,bt:['ACUERDO','Hablar con un asesor']},
+    aumento:{hd:'Tu línea puede crecer',b:`¡Felicitaciones, ${nm}! Por tu buen historial de pagos te ofrecemos aumentar tu límite de ${fm(a.limit)} a *${fm(nuevoLim(a))}*.`,bt:['Aceptar aumento','Ahora no']}
+  };return T[k];}
+function smsTpl(k,a){const nm=strip(first(a)),s=statement(a),c=s.mov.find(m=>m.t==='c');
+  const f=c=>strip(fm(c)).replace('$ ','USD ');
+  const T={estadoAnt:`BOVEM: ${nm}, estado de cuenta Sep-26. Saldo ${f(s.ant)}. Pago minimo ${f(s.cuotaAnt)}. Vence 10/10/2026.`,
+    estado:`BOVEM: ${nm}, estado de cuenta Oct-26. Saldo ${f(a.bal)}. Cuota ${f(a.minimo)}${a.vencido?`. Vencido ${f(a.vencido)}`:''}. Vence ${P.limite}. Detalle: bovem.co/e/${a.id}`,
+    d5:`BOVEM: ${nm}, tu cuota de ${f(a.minimo)} vence el ${P.limite}. Paga a tiempo y evita cargos.`,
+    d1:`BOVEM: ${nm}, manana vence tu cuota de ${f(a.minimo)}. Evita el cargo por mora de ${f(P.cargoMora)}.`,
+    d0:`BOVEM: ${nm}, hoy vence tu cuota de ${f(a.minimo)}. Cuenta ${a.cta}.`,
+    consumo:`BOVEM: Consumo aprobado ${f(c?c.v:12500)} en ${strip(c?c.d:'Supermercado')}. No fuiste tu? Responde BLOQUEAR.`,
+    pago:`BOVEM: Recibimos tu pago de ${f(s.Pg||a.minimo)} en la linea ${a.cta}. Gracias.`,
+    m1:`BOVEM: ${nm}, tu cuota de ${f(a.minimo)} esta vencida. Cargo por mora ${f(P.cargoMora)}. Paga hoy y manten tu linea activa.`,
+    m15:`BOVEM: ${nm}, 15 dias de atraso. Para ponerte al dia: ${f(Math.max(a.vencido,a.minimo)+P.cargoMora)}. Responde ACUERDO para pagar en cuotas.`,
+    bloq:`BOVEM: ${nm}, tu linea ${a.cta} esta bloqueada por mora. Vencido ${f(Math.max(a.vencido,a.minimo*2))}. Al pagar se reactiva.`,
+    aumento:`BOVEM: ${nm}, por tu buen historial puedes subir tu limite a ${f(nuevoLim(a))}. Responde SI para aceptar.`};return T[k];}
+function threadFor(a){
+  const ev=[];const s=statement(a);
+  ev.push({d:'25/09/2026',h:'08:00',k:'estadoAnt'});
+  if(a.cv<=1){ev.push({d:'04/10/2026',h:'08:00',k:'d5'});ev.push({d:'09/10/2026',h:'08:00',k:'d1'});}
+  if(a.cv===0)ev.push({d:'10/10/2026',h:'14:23',k:'pago'});
+  if(a.cv===1){ev.push({d:'11/10/2026',h:'08:00',k:'m1'});ev.push({d:'25/10/2026',h:'09:00',k:'m15'});}
+  if(a.cv>=2)ev.push({d:'11/10/2026',h:'08:00',k:'bloq'});
+  s.mov.filter(m=>m.t==='c'&&m.f.endsWith('/10/2026')).slice(0,2).forEach(m=>ev.push({d:m.f,h:m.hr,k:'consumo',c:m}));
+  ev.push({d:'25/10/2026',h:'08:00',k:'estado'});
+  const key=e=>e.d.split('/').reverse().join('')+e.h;return ev.sort((x,y)=>key(x)<key(y)?-1:1);
+}
+const TICK='<svg viewBox="0 0 16 11"><path d="M1 6l3 3 6-7M6 9l1 1 7-8" fill="none" stroke="var(--wa-tick)" stroke-width="1.6"/></svg>';
+const VERIF='<svg viewBox="0 0 24 24"><path d="M12 2l2.4 2.2 3.2-.4.9 3.1 2.8 1.6-1.3 3 1.3 3-2.8 1.6-.9 3.1-3.2-.4L12 22l-2.4-2.2-3.2.4-.9-3.1L2.7 15.5l1.3-3-1.3-3 2.8-1.6.9-3.1 3.2.4z" fill="#25D366"/><path d="M8 12.2l2.6 2.6L16 9.4" fill="none" stroke="#fff" stroke-width="2"/></svg>';
+const md=t=>esc(t).replace(/\*(.+?)\*/g,'<b>$1</b>');
+function waMsgHTML(m,a,live){
+  if(m.from==='client')return `<div class="wmsg out"><div class="wb">${md(m.text)}<span class="tm">${m.h} ${TICK}</span></div></div>`;
+  const T=m.bot?m.bot:{...waTpl(m.k,a),...(m.alt||{})};
+  if(m.k==='consumo'&&m.c){T.b=`Consumo aprobado por *${fm(m.c.v)}* en ${m.c.d} con tu línea ${a.cta}.\n¿No reconoces esta compra?`;}
+  const doc=T.doc?`<div class="wdoc"><div class="pdf">PDF</div><div><b>Estado_${a.cta}_${T.doc}2026.pdf</b><span>2 páginas · PDF · 84 kB</span></div></div>`:'';
+  const btns=(T.bt||[]).length?`<div class="wbtns">${T.bt.map(b=>`<button data-qr="${esc(b)}" ${live?'':'disabled'}><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5M4 9h11a5 5 0 0 1 0 10h-1"/></svg>${esc(b)}</button>`).join('')}</div>`:'';
+  return `<div class="wmsg in"><div class="wb">${doc}${T.hd?`<span class="hd">${esc(T.hd)}</span>`:''}${md(T.b)}${m.bot?'':'<span class="ft">Bovem Capital · responde a este chat</span>'}<span class="tm">${m.h}</span></div>${btns}</div>`;
+}
+let conv={id:null,extra:[]}, mtk='estado', camp={seg:'Atraso 1–30',k:'m15'};
+function botReply(q,a){
+  const s=statement(a);const v=Math.max(a.vencido,a.minimo)+(a.cv?P.cargoMora:0);
+  const p1=Math.round(v/3),p3=v-2*p1;
+  const R={
+    'Cómo pagar':{b:`Puedes pagar por:\n1. Transferencia en USD\n2. Pago Móvil en bolívares a la tasa BCV del día\n3. Depósito en taquilla\n\nReferencia: *${a.cta}*\nMonto: *${fm(a.minimo+a.vencido)}*`,bt:['Ya pagué']},
+    'Pagar ahora':{b:`Para ponerte al día paga *${fm(a.minimo+a.vencido)}* con referencia *${a.cta}* por transferencia en USD o Pago Móvil a tasa BCV.`,bt:['Ya pagué','ACUERDO']},
+    'Ya pagué':{b:'Gracias. Envíanos el número de referencia y la fecha del pago. Lo aplicamos en un máximo de 24 horas hábiles y te confirmamos por aquí.'},
+    'Ver movimientos':{b:'Últimos movimientos:\n'+s.mov.slice(-4).map(m=>`${m.f.slice(0,5)} · ${m.t==='p'?'Pago':m.d}\n*${fm(m.v)}*`).join('\n')},
+    'ACUERDO':{b:`Podemos dividir *${fm(v)}* en 3 pagos semanales:\n• 05/11: ${fm(p1)}\n• 12/11: ${fm(p1)}\n• 19/11: ${fm(p3)}\n¿Lo aceptas?`,bt:['Acepto el acuerdo','Hablar con un asesor']},
+    'Acepto el acuerdo':{b:`Listo, ${first(a)}. Registramos tu acuerdo. Te recordaremos cada fecha. Primer pago: *${fm(p1)}* el 05/11/2026.`},
+    'Hablar con un asesor':{b:'Un asesor de Bovem te escribirá por este chat de lunes a viernes de 8:00 a 17:00.'},
+    'BLOQUEAR':{b:'Bloqueamos tu línea de forma preventiva. Un asesor te contactará para revisar el consumo.'},
+    'Fui yo':{b:'Gracias por confirmar.'},
+    'Aceptar aumento':{b:`¡Listo! Tu nuevo límite es *${fm(nuevoLim(a))}*. Ya está disponible.`},
+    'Ahora no':{b:'Entendido. La oferta queda disponible por 30 días.'}};
+  return R[q]||{b:'Gracias por escribirnos.'};
+}
+V.mensajeria=()=>{
+  const a=sel;if(conv.id!==a.id)conv={id:a.id,extra:[]};
+  const th=threadFor(a);
+  let html='',lastD='';
+  th.forEach((m,i)=>{if(m.d!==lastD){html+=`<div class="wday">${m.d}</div>`;lastD=m.d;}html+=waMsgHTML(m,a,i===th.length-1&&!conv.extra.length);});
+  conv.extra.forEach((m,i)=>{if(m.d&&m.d!==lastD){html+=`<div class="wday">${m.d}</div>`;lastD=m.d;}html+=waMsgHTML(m,a,i===conv.extra.length-1&&m.from==='bot');});
+  // SMS
+  let sh='',ld='';th.forEach(m=>{if(m.d!==ld){sh+=`<div class="sday"><b>${m.d}</b> ${m.h}</div>`;ld=m.d;}const t=m.c?smsTpl(m.k,a).replace(/Consumo aprobado USD [\d.,]+ en [^.]+/,`Consumo aprobado ${strip(fm(m.c.v)).replace('$ ','USD ')} en ${strip(m.c.d)}`):smsTpl(m.k,a);const inf=smsInfo(t);sh+=`<div class="sb">${esc(t)}</div><div class="sinfo">${inf.len} car · ${inf.enc} · ${inf.seg} SMS</div>`;});
+  const cur=waTpl(mtk,a), cs=smsTpl(mtk,a), ci=smsInfo(cs);
+  const varsTxt=cur.b.replace(new RegExp(esc(first(a)),'g'),'{{1}}');
+  // campaña
+  const L=accounts.filter(x=>x.seg===camp.seg);
+  const wa=L.filter(x=>x.optWA),sm=L.filter(x=>!x.optWA),ml=L.filter(x=>x.optMail);
+  const smsSeg=sum(sm,x=>smsInfo(smsTpl(camp.k,x)).seg);
+  const opts=accounts.slice(0,300).map(x=>`<option value="${x.id}" ${x.id===a.id?'selected':''}>${x.cta} · ${esc(x.nombre)}</option>`).join('');
+  return `<div class="head"><div><h1>Mensajería al cliente</h1><p class="sub">WhatsApp Business, SMS y email con los datos reales de cada cuenta</p></div>
+    <div class="controls"><select id="pick" aria-label="Cuenta">${a.id>300?`<option selected>${a.cta} · ${esc(a.nombre)}</option>`:''}${opts}</select>
+    <button class="btn" data-ex="mora">Cliente en mora</button><button class="btn" data-ex="atraso">Atraso 1–30</button><button class="btn" data-ex="elig">Elegible a aumento</button><button class="btn" id="reset">Reiniciar chat</button></div></div>
+  <div class="phones">
+    <div class="phonecol"><h3>WhatsApp · teléfono del cliente</h3><div class="device wa"><div class="screen" style="background:var(--wa-chat)"><div class="island"></div>
+      <div class="sbar"><span>9:41</span><span>5G ▮▮▮</span></div>
+      <div class="whead"><span style="color:var(--wa-green);font-size:20px">‹</span><div class="av">B</div><div style="min-width:0"><div class="nm">Bovem Capital ${VERIF}</div><div class="st">Cuenta de empresa</div></div><div class="ic"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="M16 10l6-3v10l-6-3"/></svg><svg viewBox="0 0 24 24"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></div></div>
+      <div class="wchat" id="wchat"><div class="wsys">🔒 Los mensajes están cifrados de extremo a extremo. Bovem Capital usa un servicio seguro de Meta para gestionar este chat.</div>${html}</div>
+      <div class="wfoot"><div class="in">Mensaje</div><div class="mic"><svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></div></div></div></div>
+      <p class="note" style="max-width:330px;text-align:center">Toque los botones de la última respuesta para simular la conversación.</p></div>
+    <div class="phonecol"><h3>SMS · clientes sin WhatsApp</h3><div class="device sms"><div class="screen"><div class="island"></div>
+      <div class="sbar"><span>9:41</span><span>5G ▮▮▮</span></div>
+      <div class="shead"><span style="align-self:flex-start;padding-left:14px;color:var(--sms-out);font-size:20px;margin-top:-6px">‹</span><div class="av">B</div><b>BOVEM</b><span>Remitente alfanumérico</span></div>
+      <div class="schat">${sh}</div>
+      <div class="sfoot"><div class="in">Mensaje de texto</div></div></div></div>
+      <p class="note" style="max-width:330px;text-align:center">Textos sin tildes para usar GSM-7: 160 caracteres por SMS. Con tildes el límite baja a 70.</p></div>
+  </div>
+  <div class="grid g21 mt">
+    <div class="panel"><div class="panel-h"><h2>Plantillas</h2><span class="note">Categoría Utilidad · aprobación previa de Meta</span></div>
+      <div class="grid tplgrid" style="grid-template-columns:minmax(0,220px) minmax(0,1fr)"><div class="tplist">${TPL.map(t=>`<button data-t="${t.k}" aria-pressed="${t.k===mtk}"><span>${t.n}</span><span class="w">${t.w}</span></button>`).join('')}</div>
+      <div style="display:flex;flex-direction:column;gap:10px;min-width:0"><h3>WhatsApp · plantilla <span class="mono note">bovem_${mtk}_v1</span></h3><div class="code">${esc(varsTxt).replace(/\{\{1\}\}/g,'<em>{{1}}</em>').replace(/\*(.+?)\*/g,'<em>$1</em>')}</div>
+      <p class="note">Variables resaltadas: se llenan con los datos de cada cuenta al momento del envío. Botones: ${(cur.bt||[]).join(' · ')||'ninguno'}.</p>
+      <h3>SMS</h3><div class="code">${esc(cs)}</div><p class="note">${ci.len} caracteres · ${ci.enc} · ${ci.seg} SMS por envío</p></div></div></div>
+    <div class="panel"><h2>Email · ${esc(cur.hd||TPL.find(t=>t.k===mtk).n)}</h2><div class="mail"><div class="mh"><span>De: <b>notificaciones@bovemcapital.com</b></span><span>Para: ${a.email}</span><span>Asunto: <b>${esc(cur.hd||TPL.find(t=>t.k===mtk).n)} · ${a.cta}</b></span></div><div class="band">BOVEM CAPITAL</div>
+      <div class="mb"><div>Hola ${esc(first(a))},</div><div>${md(cur.b.split('\n')[0].replace(/^Hola [^,]+, /,'').replace(/^¡Felicitaciones, [^!]+! /,''))}</div>
+      <div class="box"><dl class="kv"><dt>Cuenta</dt><dd>${a.cta}</dd><dt>Saldo al corte</dt><dd>${fm(a.bal)}</dd><dt>Cuota del mes</dt><dd>${fm(a.minimo)}</dd><dt>Cuotas en mora</dt><dd>${fm(a.vencido)}</dd><dt>Fecha límite</dt><dd>${P.limite}</dd><dt>Disponible</dt><dd>${a.bloq?'Bloqueada':fm(a.limit-a.bal)}</dd></dl></div>
+      <div><button class="btn primary" type="button" id="mailcta">Ver estado de cuenta</button></div><div class="note">Adjunto: Estado_${a.cta}_Oct2026.pdf</div></div></div></div>
+  </div>
+  <div class="panel mt"><div class="panel-h"><h2>Campaña por segmento</h2><div class="controls"><select id="cseg" aria-label="Segmento">${SEGS.map(s=>`<option ${s===camp.seg?'selected':''}>${s}</option>`).join('')}</select><select id="ctpl" aria-label="Plantilla">${TPL.map(t=>`<option value="${t.k}" ${t.k===camp.k?'selected':''}>${t.n} (${t.w})</option>`).join('')}</select><button class="btn primary" id="csend">Programar envío</button></div></div>
+    <div class="grid g4"><div class="kpi"><span class="l">Cuentas del segmento</span><span class="v">${ent(L.length)}</span><span class="d">${fm(sum(L,x=>x.bal))}</span></div>
+      <div class="kpi"><span class="l">WhatsApp</span><span class="v">${ent(wa.length)}</span><span class="d">Con autorización registrada</span></div>
+      <div class="kpi"><span class="l">SMS (respaldo)</span><span class="v">${ent(sm.length)}</span><span class="d">${ent(smsSeg)} SMS en total</span></div>
+      <div class="kpi"><span class="l">Email</span><span class="v">${ent(ml.length)}</span><span class="d">Con autorización registrada</span></div></div>
+    <p class="note">Regla de canal: WhatsApp si el cliente lo autorizó; si no, SMS. El email se envía además a quien lo autorizó.</p></div>`;
+};
+
+/* ================= Router y eventos ================= */
+const VIEWS=['resumen','segmentacion','crecimiento','consultas','cliente','autorizaciones','cobranza','riesgo','mensajeria'];
+function render(keepScroll){
+  const h=location.hash.slice(1),v=VIEWS.includes(h)?h:'resumen';
+  $$('.navgrp a').forEach(a=>{if(a.getAttribute('href')==='#'+v)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current');});
+  const y=window.scrollY;$('#app').innerHTML=V[v]();bind(v);
+  if(keepScroll)window.scrollTo(0,y);
+  if(v==='mensajeria'){const c=$('#wchat');if(c)c.scrollTop=c.scrollHeight;}
+}
+function openClient(id,tab){sel=byId(id);ctab=tab||'resumen';simAmt=null;if(location.hash==='#cliente')render();else location.hash='cliente';window.scrollTo(0,0);}
+function bind(v){
+  $$('tr.click').forEach(tr=>tr.addEventListener('click',()=>openClient(tr.dataset.id)));
+  const pk=$('#pick');if(pk)pk.addEventListener('change',()=>{sel=byId(pk.value);simAmt=null;render();});
+  $$('[data-ex]').forEach(b=>b.addEventListener('click',()=>{const f={mora:a=>a.cv===2&&a.optWA,total:a=>a.seg==='Totalero'&&a.optWA,elig:a=>isElig(a)&&a.optWA,atraso:a=>a.cv===1&&a.optWA}[b.dataset.ex];sel=accounts.find(f)||sel;simAmt=null;
+    if(v==='mensajeria'&&b.dataset.ex==='elig')mtk='aumento';render();}));
+  if(v==='segmentacion')$$('td.h').forEach(td=>td.addEventListener('click',()=>{segSel={s:td.dataset.s,t:td.dataset.t};render(true);const d=$('.panel.mt:last-child');}));
+  if(v==='consultas'){
+    const q=$('#cq');q.addEventListener('input',()=>{Q.q=q.value;Q.page=0;render(true);const n=$('#cq');n.focus();n.setSelectionRange(n.value.length,n.value.length);});
+    [['fseg','seg'],['ftier','tier'],['fband','band'],['fstage','stage'],['fest','est']].forEach(([id,k])=>$('#'+id).addEventListener('change',e=>{Q[k]=e.target.value;Q.page=0;render(true);}));
+    $('#fclr').addEventListener('click',()=>{Q={q:'',seg:'',tier:'',band:'',stage:'',est:'',sort:'bal',dir:-1,page:0};render(true);});
+    $$('th.sort').forEach(th=>th.addEventListener('click',()=>{if(Q.sort===th.dataset.k)Q.dir*=-1;else{Q.sort=th.dataset.k;Q.dir=-1;}render(true);}));
+    $('#pv').addEventListener('click',()=>{Q.page--;render(true);});$('#nx').addEventListener('click',()=>{Q.page++;render(true);});}
+  if(v==='cliente'){
+    $$('[data-tab]').forEach(b=>b.addEventListener('click',()=>{ctab=b.dataset.tab;render(true);}));
+    const sa=$('#samt');if(sa){sa.addEventListener('change',()=>{simAmt=Math.max(0,Math.round(parseFloat(sa.value||0)*100));render(true);});
+      $$('[data-q]').forEach(b=>b.addEventListener('click',()=>{simAmt=+b.dataset.q;render(true);}));}}
+  if(v==='autorizaciones')$$('[data-af]').forEach(b=>b.addEventListener('click',()=>{af=b.dataset.af;render(true);}));
+  if(v==='cobranza')$$('[data-b]').forEach(b=>b.addEventListener('click',()=>{cf=b.dataset.b;render(true);}));
+  if(v==='crecimiento'){['gp','gu'].forEach(id=>$('#'+id).addEventListener('change',e=>{if(id==='gp')G1.pct=+e.target.value;else G1.uso=+e.target.value;render(true);}));
+    $('#gp').addEventListener('input',e=>$('#gpv').textContent=e.target.value+' %');$('#gu').addEventListener('input',e=>$('#guv').textContent=e.target.value+' %');}
+  if(v==='mensajeria'){
+    $$('[data-t]').forEach(b=>b.addEventListener('click',()=>{mtk=b.dataset.t;render(true);}));
+    $('#reset').addEventListener('click',()=>{conv={id:null,extra:[]};render(true);});
+    $('#mailcta').addEventListener('click',()=>openClient(sel.id,'estado'));
+    $('#cseg').addEventListener('change',e=>{camp.seg=e.target.value;render(true);});$('#ctpl').addEventListener('change',e=>{camp.k=e.target.value;render(true);});
+    $('#csend').addEventListener('click',()=>toast('Prototipo: en el sistema la campaña queda programada y se registra cada envío.'));
+    $$('[data-qr]').forEach(b=>b.addEventListener('click',()=>{
+      const q=b.dataset.qr,a=sel;conv.extra.push({from:'client',text:q,h:'09:4'+(conv.extra.length%10),d:'29/10/2026'});render(true);
+      const c=$('#wchat');const t=document.createElement('div');t.className='typing';t.innerHTML='<i></i><i></i><i></i>';c.appendChild(t);c.scrollTop=c.scrollHeight;
+      setTimeout(()=>{conv.extra.push({from:'bot',bot:botReply(q,a),h:'09:4'+(conv.extra.length%10),d:'29/10/2026'});render(true);},900);}));
+  }
+}
+/* Búsqueda global */
+(function(){const gq=$('#gq'),sg=$('#sugg');let hits=[],idx=0;
+  function show(){const q=strip(gq.value.toLowerCase().trim());if(q.length<2){sg.hidden=true;return;}
+    hits=accounts.filter(a=>strip(a.nombre.toLowerCase()).includes(q)||a.cta.toLowerCase().includes(q)||a.ci.replace(/\./g,'').toLowerCase().includes(q.replace(/\./g,''))).slice(0,7);idx=0;
+    sg.innerHTML=hits.map((a,i)=>`<button data-id="${a.id}" class="${i===0?'on':''}">${esc(a.nombre)}<span>${a.cta} · ${a.ci}</span></button>`).join('')||'<button disabled>Sin resultados</button>';sg.hidden=false;
+    $$('#sugg button[data-id]').forEach(b=>b.addEventListener('mousedown',e=>{e.preventDefault();go(b.dataset.id);}));}
+  function go(id){sg.hidden=true;gq.value='';gq.blur();openClient(id);}
+  gq.addEventListener('input',show);gq.addEventListener('blur',()=>setTimeout(()=>sg.hidden=true,120));
+  gq.addEventListener('keydown',e=>{if(sg.hidden)return;if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();idx=(idx+(e.key==='ArrowDown'?1:-1)+hits.length)%hits.length;$$('#sugg button').forEach((b,i)=>b.classList.toggle('on',i===idx));}
+    if(e.key==='Enter'&&hits[idx]){e.preventDefault();go(hits[idx].id);}if(e.key==='Escape')sg.hidden=true;});
+})();
+window.addEventListener('hashchange',()=>render());
+render();
+</script>
